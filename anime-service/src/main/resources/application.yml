@@ -13,4 +13,7 @@ server:
     context-path: /
   error:
     include-stacktrace: ON_PARAM
+  tomcat:
+    threads:
+      max: 20
 
