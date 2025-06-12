@@ -1,8 +1,8 @@
 package academy.devdojo.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import academy.devdojo.Dominio.Anime;
+import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.nodes.AnchorNode;
 
 import java.util.List;
 
@@ -16,5 +16,27 @@ private static final List<String> animes = List.of("1","2","3","4","5");
     public List<String> listAll(){
         return animes;
     }
+
+    @GetMapping("listaAnime")
+    public List<Anime> lista(){
+        return Anime.listaRetorno();
+    }
+
+    @GetMapping("findByName")
+    public List<Anime> findByName(@RequestParam(defaultValue = "")String name){
+        return Anime.listaRetorno()
+                .stream()
+                .filter(anime -> anime.getName().equalsIgnoreCase(name))
+                .toList();
+    }
+
+    @GetMapping("findById")
+    public List<Anime> findById(@PathVariable(required = true) Long id){
+        return Anime.listaRetorno()
+                .stream()
+                .filter(anime -> anime.getId().equals(id))
+                .toList();
+    }
+
 
 }
