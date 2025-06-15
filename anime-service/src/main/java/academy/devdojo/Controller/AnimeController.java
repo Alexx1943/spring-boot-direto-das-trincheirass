@@ -4,17 +4,12 @@ import academy.devdojo.Dominio.Anime;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 @RequestMapping("v1/animes")
 public class AnimeController {
 
-    private static final List<String> animes = List.of("1", "2", "3", "4", "5");
-
-    @GetMapping
-    public List<String> listAlll(){
-        return animes;
-    }
 
     @GetMapping("listAll")
     public List<Anime> listAll() {
@@ -24,7 +19,7 @@ public class AnimeController {
     @GetMapping("findByName")
     public List<Anime> findaByName(@RequestParam String name) {
 
-        if (name == "") return Anime.listaRetorno();
+        if (name.equals("")) return Anime.listaRetorno();
 
         return Anime.listaRetorno()
                 .stream()
@@ -40,6 +35,12 @@ public class AnimeController {
                 .toList();
     }
 
+    @PostMapping
+    public Anime addAnime(@RequestBody Anime anime) {
+        anime.setId(ThreadLocalRandom.current().nextLong(1, 100) * 23);
+        Anime.addAnime(anime);
+        return anime;
+    }
 
 
 }

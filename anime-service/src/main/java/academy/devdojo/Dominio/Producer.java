@@ -10,23 +10,23 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
-public class Anime {
+public class Producer {
 
     private Long id;
     private String name;
 
-    private static List<Anime> retorno = new ArrayList<>(
-            List.of(new Anime(1L, "Naruto"),
-                    new Anime(2L, "Dragon Ball Z")));
+    private static List<Producer> retorno = new ArrayList<>(
+            List.of(new Producer(1L, "Naruto"),
+                    new Producer(2L, "Dragon Ball Z")));
 
 
-    public static List<Anime> listaRetorno() {
+    public static List<Producer> listaRetorno() {
 
         return retorno;
     }
 
-    public static void addAnime(Anime anime) {
-        retorno.add(anime);
+    public static void addProducer(Producer producer) {
+        retorno.add(producer);
         System.out.println("Anime salvo com sucesso!!!");
     }
 
