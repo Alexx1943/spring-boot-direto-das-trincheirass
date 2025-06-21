@@ -1,33 +1,40 @@
 package academy.devdojo.Dominio;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
+@Builder
 public class Producer {
 
     private Long id;
     private String name;
+    private LocalDateTime createdAt;
 
-    private static List<Producer> retorno = new ArrayList<>(
-            List.of(new Producer(1L, "Naruto"),
-                    new Producer(2L, "Dragon Ball Z")));
+    private static List<Producer> producers = new ArrayList<>();
 
+    static{
 
-    public static List<Producer> listaRetorno() {
+        var Teste1 = Producer.builder().id(1L).name("Teste1").createdAt(LocalDateTime.now()).build();
+        var Teste2 = Producer.builder().id(2L).name("Teste2").createdAt(LocalDateTime.now()).build();
+        var Teste3 = Producer.builder().id(3L).name("Teste3").createdAt(LocalDateTime.now()).build();
+        var Teste4 = Producer.builder().id(4L).name("Teste4").createdAt(LocalDateTime.now()).build();
 
-        return retorno;
+        producers.addAll(List.of(Teste1, Teste2,Teste3,Teste4));
+
     }
 
-    public static void addProducer(Producer producer) {
-        retorno.add(producer);
-        System.out.println("Anime salvo com sucesso!!!");
+
+
+    public static List<Producer> getProducers() {
+        return producers;
     }
 
 

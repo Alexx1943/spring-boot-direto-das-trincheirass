@@ -13,15 +13,15 @@ public class AnimeController {
 
     @GetMapping("listAll")
     public List<Anime> listAll() {
-        return Anime.listaRetorno();
+        return Anime.getAnime();
     }
 
     @GetMapping("findByName")
     public List<Anime> findaByName(@RequestParam String name) {
 
-        if (name.equals("")) return Anime.listaRetorno();
+        if (name.equals("")) return Anime.getAnime();
 
-        return Anime.listaRetorno()
+        return Anime.getAnime()
                 .stream()
                 .filter(anime -> anime.getName().equalsIgnoreCase(name))
                 .toList();
@@ -29,7 +29,7 @@ public class AnimeController {
 
     @GetMapping("findById/{id}")
     public List<Anime> findById(@PathVariable Long id) {
-        return Anime.listaRetorno()
+        return Anime.getAnime()
                 .stream()
                 .filter(anime -> anime.getId().equals(id))
                 .toList();
@@ -38,7 +38,7 @@ public class AnimeController {
     @PostMapping
     public Anime addAnime(@RequestBody Anime anime) {
         anime.setId(ThreadLocalRandom.current().nextLong(1, 100) * 23);
-        Anime.addAnime(anime);
+        Anime.getAnime().add(anime);
         return anime;
     }
 

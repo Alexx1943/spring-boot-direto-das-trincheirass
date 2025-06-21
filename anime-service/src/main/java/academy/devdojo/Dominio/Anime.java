@@ -15,19 +15,20 @@ public class Anime {
     private Long id;
     private String name;
 
-    private static List<Anime> retorno = new ArrayList<>(
-            List.of(new Anime(1L, "Naruto"),
-                    new Anime(2L, "Dragon Ball Z")));
+    private static List<Anime> animes = new ArrayList<>();
 
+    static{
 
-    public static List<Anime> listaRetorno() {
-
-        return retorno;
+        var naruto = new Anime(1L,"Naruto");
+        var dragonBallZ = new Anime(2L,"Dragoon Ball Z");
+        animes.addAll(List.of(naruto, dragonBallZ));
     }
 
-    public static void addAnime(Anime anime) {
-        retorno.add(anime);
-        System.out.println("Anime salvo com sucesso!!!");
+
+
+    public static List<Anime> getAnime() {
+
+        return animes;
     }
 
 
