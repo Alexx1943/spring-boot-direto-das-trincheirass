@@ -1,4 +1,4 @@
-package academy.devdojo.Dominio;
+package academy.devdojo.Domain;
 
 public class Pessoa {
 

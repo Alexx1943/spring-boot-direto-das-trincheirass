@@ -1,6 +1,6 @@
 package academy.devdojo.Controller;
 
-import academy.devdojo.Dominio.Anime;
+import academy.devdojo.Domain.Anime;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

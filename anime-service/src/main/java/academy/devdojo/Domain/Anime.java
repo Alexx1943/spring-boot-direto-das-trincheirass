@@ -1,4 +1,4 @@
-package academy.devdojo.Dominio;
+package academy.devdojo.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
