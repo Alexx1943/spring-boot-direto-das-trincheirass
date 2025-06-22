@@ -1,14 +1,25 @@
 package academy.devdojo.Controller;
 
 import academy.devdojo.Domain.Anime;
+import academy.devdojo.Mapper.AnimeMapper;
+import academy.devdojo.Request.AnimePostRequest;
+import academy.devdojo.Response.AnimeGetResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
+
+@Slf4j
 @RestController
 @RequestMapping("v1/animes")
 public class AnimeController {
+
+    private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
 
 
     @GetMapping("listAll")
@@ -17,29 +28,41 @@ public class AnimeController {
     }
 
     @GetMapping("findByName")
-    public List<Anime> findaByName(@RequestParam String name) {
+    public ResponseEntity<AnimeGetResponse> findaByName(@RequestParam String name) {
 
-        if (name.equals("")) return Anime.getAnime();
 
-        return Anime.getAnime()
+        var animeGetResponse = Anime.getAnime()
                 .stream()
                 .filter(anime -> anime.getName().equalsIgnoreCase(name))
-                .toList();
+                .findFirst()
+                .map(MAPPER::toAnimeGetResponse)
+                .orElse(null);
+
+        return ResponseEntity.ok().body(animeGetResponse);
     }
 
     @GetMapping("findById/{id}")
-    public List<Anime> findById(@PathVariable Long id) {
-        return Anime.getAnime()
+    public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
+
+        var animeGetResponse = Anime.getAnime()
                 .stream()
                 .filter(anime -> anime.getId().equals(id))
-                .toList();
+                .findFirst()
+                .map(MAPPER::toAnimeGetResponse)
+                .orElse(null);
+
+        return ResponseEntity.ok().body(animeGetResponse);
     }
 
-    @PostMapping
-    public Anime addAnime(@RequestBody Anime anime) {
-        anime.setId(ThreadLocalRandom.current().nextLong(1, 100) * 23);
-        Anime.getAnime().add(anime);
-        return anime;
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AnimeGetResponse> addAnime(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
+        log.info("{}", headers);
+
+        var request = MAPPER.toAnime(animePostRequest);
+        var response = MAPPER.toAnimeGetResponse(request);
+
+        return ResponseEntity.ok().body(response);
+
     }
 
 
