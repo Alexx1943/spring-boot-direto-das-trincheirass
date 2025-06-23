@@ -23,8 +23,18 @@ public class AnimeController {
 
 
     @GetMapping("listAll")
-    public List<Anime> listAll() {
-        return Anime.getAnime();
+    public ResponseEntity<List<AnimeGetResponse>> listAll(@RequestParam(required = false) String name) {
+
+        var animes = Anime.getAnime();
+        var animeGetResponseList = MAPPER.toListAnimeGetResponse(animes);
+        if (name == null) return ResponseEntity.ok(animeGetResponseList);
+
+        var response = animeGetResponseList.stream()
+                .filter(anime -> anime.getName().equalsIgnoreCase(name))
+                .toList();
+
+        return ResponseEntity.ok(response);
+
     }
 
     @GetMapping("findByName")
@@ -38,7 +48,7 @@ public class AnimeController {
                 .map(MAPPER::toAnimeGetResponse)
                 .orElse(null);
 
-        return ResponseEntity.ok().body(animeGetResponse);
+        return ResponseEntity.ok(animeGetResponse);
     }
 
     @GetMapping("findById/{id}")
@@ -60,6 +70,8 @@ public class AnimeController {
 
         var request = MAPPER.toAnime(animePostRequest);
         var response = MAPPER.toAnimeGetResponse(request);
+
+        Anime.getAnime().add(request);
 
         return ResponseEntity.ok().body(response);
 

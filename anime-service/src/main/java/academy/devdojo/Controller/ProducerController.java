@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
@@ -22,27 +23,47 @@ public class ProducerController {
 
 
     @GetMapping("listAll")
-    public List<Producer> listAll() {
-        return Producer.getProducers();
+    public ResponseEntity<List<ProducerGetResponse>> listAll(@RequestParam(required = false) String name) {
+
+        var producers = Producer.getProducers();
+        var prodecerGetList = MAPPER.toProducerGetResponseList(producers);
+
+        if (name == null) return ResponseEntity.ok(prodecerGetList);
+
+        var response = prodecerGetList.stream()
+                .filter(producer -> producer.getName().equalsIgnoreCase(name))
+                .toList();
+
+        return ResponseEntity.ok(response);
+
     }
 
     @GetMapping("findByName")
-    public List<Producer> findaByName(@RequestParam String name) {
+    public ResponseEntity<ProducerGetResponse> findaByName(@RequestParam String name) {
 
-        if (name.equals("")) return Producer.getProducers();
-
-        return Producer.getProducers()
+        var response = Producer.getProducers()
                 .stream()
                 .filter(producer -> producer.getName().equalsIgnoreCase(name))
-                .toList();
+                .findFirst()
+                .map(MAPPER::toProducerGetResponse)
+                .orElse(null);
+
+        return ResponseEntity.ok(response);
+
     }
 
     @GetMapping("findById/{id}")
-    public List<Producer> findById(@PathVariable Long id) {
-        return Producer.getProducers()
+    public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
+
+        var response = Producer.getProducers()
                 .stream()
                 .filter(producer -> producer.getId().equals(id))
-                .toList();
+                .findFirst()
+                .map(MAPPER::toProducerGetResponse)
+                .orElse(null);
+
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, headers = "x-api-key")
