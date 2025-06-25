@@ -1,6 +1,7 @@
 package academy.devdojo.Domain;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +12,10 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producer {
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
     private LocalDateTime createdAt;

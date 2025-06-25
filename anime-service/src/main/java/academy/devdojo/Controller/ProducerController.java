@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -73,8 +74,26 @@ public class ProducerController {
         var producer = MAPPER.toProducer(producerPostResquest);
         var response = MAPPER.toProducerGetResponse(producer);
 
+        Producer.getProducers().add(producer);
+
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteId(@PathVariable Long id) {
+        log.info("Request to delete producer by id:  {}", id);
+
+        var producerDelete = Producer.getProducers()
+                .stream()
+                .filter(producer -> producer.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "producer not found"));
+
+        Producer.getProducers().remove(producerDelete);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 
