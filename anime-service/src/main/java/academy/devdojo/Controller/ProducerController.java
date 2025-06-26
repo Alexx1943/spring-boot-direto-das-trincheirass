@@ -105,7 +105,7 @@ public class ProducerController {
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        var producerUpdated = MAPPER.toProducer(request);
+        var producerUpdated = MAPPER.toProducer(request, producerToDeleted.getCreatedAt());
 
         Producer.getProducers().remove(producerToDeleted);
         Producer.getProducers().add(producerUpdated);
