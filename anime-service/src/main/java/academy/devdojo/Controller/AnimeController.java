@@ -3,6 +3,7 @@ package academy.devdojo.Controller;
 import academy.devdojo.Domain.Anime;
 import academy.devdojo.Mapper.AnimeMapper;
 import academy.devdojo.Request.AnimePostRequest;
+import academy.devdojo.Request.AnimePutRequest;
 import academy.devdojo.Response.AnimeGetResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -91,6 +92,22 @@ public class AnimeController {
         return ResponseEntity.noContent().build();
 
 
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request){
+
+        var animeDeleted = Anime.getAnime().stream()
+                .filter(anime -> anime.getId().equals(request.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+
+        var animeUpdated = MAPPER.toAnime(request);
+
+        Anime.getAnime().remove(animeDeleted);
+        Anime.getAnime().add(animeUpdated);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
