@@ -45,6 +45,7 @@ public class ProducerService {
         var producer = findByIdOrThrowNotFound(producerToUpdate.getId());
         producer.setCreatedAt(producer.getCreatedAt());
         repository.updte(producerToUpdate);
+
     }
 
 
