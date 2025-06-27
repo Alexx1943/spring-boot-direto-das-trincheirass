@@ -16,10 +16,12 @@ public class ProducerService {
         this.repository = new ProducerHardCodeRepository();
     }
 
+
     public List<Producer> listAll(String name) {
 
         return name == null ? repository.listAll() : repository.findByName(name);
     }
+
 
     public Producer findByIdOrThrowNotFound(Long id) {
 
