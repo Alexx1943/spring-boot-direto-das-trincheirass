@@ -17,16 +17,15 @@ public class Anime {
 
     private static List<Anime> animes = new ArrayList<>();
 
-    static{
+    static {
 
-        var naruto = new Anime(1L,"Naruto");
-        var dragonBallZ = new Anime(2L,"Dragoon Ball Z");
+        var naruto = new Anime(1L, "Naruto");
+        var dragonBallZ = new Anime(2L, "Dragoon Ball Z");
         animes.addAll(List.of(naruto, dragonBallZ));
     }
 
 
-
-    public static List<Anime> getAnime() {
+    public static List<Anime> findAll() {
 
         return animes;
     }

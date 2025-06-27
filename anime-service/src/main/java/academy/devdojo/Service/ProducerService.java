@@ -17,16 +17,16 @@ public class ProducerService {
     }
 
 
-    public List<Producer> listAll(String name) {
+    public List<Producer> findAll(String name) {
 
-        return name == null ? repository.listAll() : repository.findByName(name);
+        return name == null ? repository.findAll() : repository.findByName(name);
     }
 
 
     public Producer findByIdOrThrowNotFound(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produce not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
     }
 
     public Producer save(Producer producer) {
@@ -44,7 +44,7 @@ public class ProducerService {
 
         var producer = findByIdOrThrowNotFound(producerToUpdate.getId());
         producer.setCreatedAt(producer.getCreatedAt());
-        repository.updte(producerToUpdate);
+        repository.update(producerToUpdate);
 
     }
 

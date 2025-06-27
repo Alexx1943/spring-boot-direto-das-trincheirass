@@ -22,7 +22,7 @@ public class ProducerHardCodeRepository {
 
     }
 
-    public  List<Producer> listAll() {
+    public  List<Producer> findAll() {
         return PRODUCERS;
     }
 
@@ -44,7 +44,7 @@ public class ProducerHardCodeRepository {
         PRODUCERS.remove(producer);
     }
 
-    public Producer updte(Producer producer) {
+    public Producer update(Producer producer) {
         delete(producer);
         save(producer);
         return producer;
