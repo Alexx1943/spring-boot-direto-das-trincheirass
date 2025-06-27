@@ -1,7 +1,6 @@
 package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Producer;
-import lombok.Lombok;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,9 +22,10 @@ public class ProducerHardCodeRepository {
 
     }
 
-    public static List<Producer> getProducers() {
+    public  List<Producer> listAll() {
         return PRODUCERS;
     }
+
 
     public Optional<Producer> findById(Long id) {
         return PRODUCERS.stream().filter(producer -> producer.getId().equals(id)).findFirst();
