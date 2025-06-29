@@ -6,14 +6,12 @@ import academy.devdojo.Request.AnimePutRequest;
 import academy.devdojo.Response.AnimeGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AnimeMapper {
-
-    AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1000))")
     @Mapping(target = "name", source = "name")
@@ -22,6 +20,7 @@ public interface AnimeMapper {
     Anime toAnime(AnimePutRequest anime);
 
     AnimeGetResponse toAnimeGetResponse(Anime anime);
+
     List<AnimeGetResponse> toListAnimeGetResponse(List<Anime> anime);
 
 }

@@ -6,6 +6,7 @@ import academy.devdojo.Request.AnimePostRequest;
 import academy.devdojo.Request.AnimePutRequest;
 import academy.devdojo.Response.AnimeGetResponse;
 import academy.devdojo.Service.AnimeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,14 +19,13 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("v1/animes")
+@RequiredArgsConstructor
 public class AnimeController {
 
-    private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
-    private AnimeService service;
+    private final AnimeMapper mapper;
+    private final AnimeService service;
 
-    public AnimeController() {
-        this.service = new AnimeService();
-    }
+
 
 
     @GetMapping("listAll")
@@ -34,7 +34,7 @@ public class AnimeController {
 
         var animes = Anime.findAll();
 
-        var animeGetResponseList = MAPPER.toListAnimeGetResponse(animes);
+        var animeGetResponseList = mapper.toListAnimeGetResponse(animes);
 
         return ResponseEntity.ok(animeGetResponseList);
 
@@ -47,7 +47,7 @@ public class AnimeController {
 
         var animeById = service.findByIdOrThrowNotFound(id);
 
-        var animeResponse = MAPPER.toAnimeGetResponse(animeById);
+        var animeResponse = mapper.toAnimeGetResponse(animeById);
 
         return ResponseEntity.ok().body(animeResponse);
     }
@@ -56,11 +56,11 @@ public class AnimeController {
     public ResponseEntity<AnimeGetResponse> addAnime(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 
-        var request = MAPPER.toAnime(animePostRequest);
+        var request = mapper.toAnime(animePostRequest);
 
         var animeSaved = service.save(request);
 
-        var response = MAPPER.toAnimeGetResponse(animeSaved);
+        var response = mapper.toAnimeGetResponse(animeSaved);
 
         return ResponseEntity.ok().body(response);
 
@@ -80,7 +80,7 @@ public class AnimeController {
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
 
-        var animeToUpdate = MAPPER.toAnime(request);
+        var animeToUpdate = mapper.toAnime(request);
 
         service.update(animeToUpdate);
 

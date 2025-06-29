@@ -2,19 +2,20 @@ package academy.devdojo.Service;
 
 import academy.devdojo.Domain.Producer;
 import academy.devdojo.Repository.ProducerHardCodeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class ProducerService {
 
-    private ProducerHardCodeRepository repository;
+    private final ProducerHardCodeRepository repository;
 
-    public ProducerService() {
 
-        this.repository = new ProducerHardCodeRepository();
-    }
 
 
     public List<Producer> findAll(String name) {
