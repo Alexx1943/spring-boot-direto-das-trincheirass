@@ -1,7 +1,6 @@
 package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Anime;
-import academy.devdojo.Domain.Producer;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

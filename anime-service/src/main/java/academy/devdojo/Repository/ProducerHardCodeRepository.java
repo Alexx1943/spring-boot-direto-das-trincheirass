@@ -1,6 +1,9 @@
 package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Producer;
+import external.dependecy.Connection;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -9,9 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
+@Log4j2
 public class ProducerHardCodeRepository {
 
     private final static List<Producer> PRODUCERS = new ArrayList<>();
+    private final Connection connection;
 
     static {
 
@@ -34,6 +40,7 @@ public class ProducerHardCodeRepository {
     }
 
     public List<Producer> findByName(String name) {
+        log.debug(connection);
         return PRODUCERS.stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
     }
 
