@@ -42,10 +42,9 @@ public class ProducerHardCodeRepository {
         producers.getProducers().remove(producer);
     }
 
-    public Producer update(Producer producer) {
+    public void update(Producer producer) {
         delete(producer);
         save(producer);
-        return producer;
     }
 
 
