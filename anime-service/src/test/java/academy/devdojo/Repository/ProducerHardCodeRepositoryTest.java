@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -148,7 +147,7 @@ class ProducerHardCodeRepositoryTest {
         var producerOptional = repository.findById(producerUpdated.getId());
 
         Assertions.assertThat(producerOptional).isPresent();
-        Assertions.assertThat(producerOptional.get().getName()).isEqualTo(producerUpdated.getName()); 
+        Assertions.assertThat(producerOptional.get().getName()).isEqualTo(producerUpdated.getName());
 
 
     }

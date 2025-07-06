@@ -3,47 +3,39 @@ package academy.devdojo.Repository;
 import academy.devdojo.Domain.Anime;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class AnimeHardCoreRepository {
-    private final static List<Anime> ANIMES = new ArrayList<>();
+    
+    private AnimeData animeData;
 
-    static{
 
-        var naruto = new Anime(1L,"Naruto");
-        var dragonBallZ = new Anime(2L,"Dragoon Ball Z");
-        ANIMES.addAll(List.of(naruto, dragonBallZ));
+    public List<Anime> findAll() {
+        return animeData.getAnimes();
     }
 
 
+    public List<Anime> findByName(String name) {
 
-    public  List<Anime> findAll() {
-        return ANIMES;
+        return animeData.getAnimes().stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
     }
 
-
-    public List<Anime> findByName(String name){
-
-        return ANIMES.stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
+    public Optional<Anime> findById(Long id) {
+        return animeData.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst();
     }
 
-    public Optional<Anime> findById(Long id){
-        return ANIMES.stream().filter(anime -> anime.getId().equals(id)).findFirst();
-    }
-
-    public Anime save(Anime anime){
-        ANIMES.add(anime);
+    public Anime save(Anime anime) {
+        animeData.getAnimes().add(anime);
         return anime;
     }
 
-    public void delete(Anime anime){
-        ANIMES.remove(anime);
+    public void delete(Anime anime) {
+        animeData.getAnimes().remove(anime);
     }
 
-    public Anime update(Anime anime){
+    public Anime update(Anime anime) {
         delete(anime);
         save(anime);
         return anime;
