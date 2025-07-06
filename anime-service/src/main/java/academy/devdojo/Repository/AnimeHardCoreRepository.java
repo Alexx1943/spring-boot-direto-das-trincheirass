@@ -1,38 +1,43 @@
 package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Anime;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
+@Log4j2
 public class AnimeHardCoreRepository {
     
-    private AnimeData animeData;
+    private final AnimeData data;
 
 
     public List<Anime> findAll() {
-        return animeData.getAnimes();
+        return data.getAnimes();
     }
 
 
     public List<Anime> findByName(String name) {
 
-        return animeData.getAnimes().stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
+        return data.getAnimes().stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
     }
 
     public Optional<Anime> findById(Long id) {
-        return animeData.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst();
+        return data.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst();
     }
 
     public Anime save(Anime anime) {
-        animeData.getAnimes().add(anime);
+        data.getAnimes().add(anime);
         return anime;
     }
 
     public void delete(Anime anime) {
-        animeData.getAnimes().remove(anime);
+        data.getAnimes().remove(anime);
     }
 
     public Anime update(Anime anime) {

@@ -1,10 +1,12 @@
 package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Anime;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class AnimeData {
 
     private final  List<Anime> animes = new ArrayList<>();

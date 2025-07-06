@@ -32,11 +32,11 @@ public class AnimeController {
     public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
         log.info("Resquet to list all animes '{}", name);
 
-        var animes = Anime.findAll();
+        var animes = service.findAll(name);
 
-        var animeGetResponseList = mapper.toListAnimeGetResponse(animes);
+        var response = mapper.toListAnimeGetResponse(animes);
 
-        return ResponseEntity.ok(animeGetResponseList);
+        return ResponseEntity.ok(response);
 
     }
 
