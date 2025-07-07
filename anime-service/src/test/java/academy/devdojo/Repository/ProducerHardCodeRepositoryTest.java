@@ -23,7 +23,7 @@ class ProducerHardCodeRepositoryTest {
 
     @Mock
     private ProducerData producerData;
-    private final List<Producer> listProducers = new ArrayList<>();
+    private List<Producer> listProducers;
 
     @BeforeEach
     void init() {
@@ -31,9 +31,7 @@ class ProducerHardCodeRepositoryTest {
         var teste6 = Producer.builder().id(2L).name("Teste6").createdAt(LocalDateTime.now()).build();
         var teste7 = Producer.builder().id(3L).name("Teste7").createdAt(LocalDateTime.now()).build();
         var teste8 = Producer.builder().id(4L).name("Teste8").createdAt(LocalDateTime.now()).build();
-        listProducers.addAll(List.of(teste5, teste6, teste7, teste8));
-
-
+        listProducers = new ArrayList<>(List.of(teste5, teste6, teste7, teste8));
     }
 
 
@@ -125,14 +123,13 @@ class ProducerHardCodeRepositoryTest {
 
         var producers = repository.findAll();
 
-
         Assertions.assertThat(producers).isNotEmpty().doesNotContain(producerToRemuve);
     }
 
     @Test
     @DisplayName("update updates producer")
     @Order(7)
-    void update_Update(){
+    void update_Update() {
 
         BDDMockito.when(producerData.getProducers()).thenReturn(listProducers);
 

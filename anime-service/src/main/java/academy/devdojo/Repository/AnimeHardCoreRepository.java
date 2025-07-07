@@ -40,10 +40,9 @@ public class AnimeHardCoreRepository {
         data.getAnimes().remove(anime);
     }
 
-    public Anime update(Anime anime) {
+    public void update(Anime anime) {
         delete(anime);
         save(anime);
-        return anime;
     }
 
 }

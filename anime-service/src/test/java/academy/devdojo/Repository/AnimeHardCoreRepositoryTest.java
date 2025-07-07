@@ -24,7 +24,7 @@ class AnimeHardCoreRepositoryTest {
     @Mock
     private AnimeData data;
 
-    private final List<Anime> animeList = new ArrayList<>();
+    private List<Anime> animeList;
 
     @BeforeEach
     void init() {
@@ -38,7 +38,7 @@ class AnimeHardCoreRepositoryTest {
                 .name("anime2")
                 .build();
 
-        animeList.addAll(List.of(anime1, anime2));
+        animeList = new ArrayList<>(List.of(anime1, anime2));
     }
 
 
@@ -84,7 +84,7 @@ class AnimeHardCoreRepositoryTest {
     @Test
     @Order(4)
     @DisplayName("findByName returns a list found  object with name exist")
-    void findByNameReturnsListFoundObjectWithNameExist_WhenSucessful(){
+    void findByNameReturnsListFoundObjectWithNameExist_WhenSucessful() {
 
         BDDMockito.when(data.getAnimes()).thenReturn(animeList);
 
@@ -98,7 +98,7 @@ class AnimeHardCoreRepositoryTest {
     @Test
     @Order(5)
     @DisplayName("save create a new anime")
-    void saveReturnNewAnime_WhenSucessful(){
+    void saveReturnNewAnime_WhenSucessful() {
 
         BDDMockito.when(data.getAnimes()).thenReturn(animeList);
 
@@ -119,13 +119,41 @@ class AnimeHardCoreRepositoryTest {
     @Test
     @Order(6)
     @DisplayName("delete remove a anime")
-    void deleteRemoveAnime(){
+    void deleteRemoveAnime() {
 
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var animeToDelete = animeList.getFirst();
+
+        repository.delete(animeToDelete);
+
+        var animes = repository.findAll();
+
+        Assertions.assertThat(animes).isNotEmpty().doesNotContain(animeToDelete);
     }
 
+    @Test
+    @Order(7)
+    @DisplayName("update updates animes")
+    void update_Update_whenSucessful() {
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var animeToUpdate = animeList.getFirst();
+
+        animeToUpdate.setName("update");
+
+        repository.update(animeToUpdate);
+
+        Assertions.assertThat(this.animeList).contains(animeToUpdate);
+
+        var anime = repository.findById(animeToUpdate.getId());
+
+        Assertions.assertThat(anime).isPresent();
+        Assertions.assertThat(anime.get().getId()).isEqualTo(animeToUpdate.getId());
 
 
-
+    }
 
 
 }
