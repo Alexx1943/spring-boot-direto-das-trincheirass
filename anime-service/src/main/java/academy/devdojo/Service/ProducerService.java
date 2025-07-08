@@ -32,7 +32,7 @@ public class ProducerService {
 
     public Producer save(Producer producer) {
 
-        return repository.save(producer);
+    return repository.save(producer);
     }
 
     public void delete(Long id) {
