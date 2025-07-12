@@ -16,7 +16,6 @@ import java.util.Optional;
 @Log4j2
 public class ProducerHardCodeRepository {
 
-    private final Connection connection;
     private final ProducerData producers;
 
     public  List<Producer> findAll() {
@@ -29,7 +28,6 @@ public class ProducerHardCodeRepository {
     }
 
     public List<Producer> findByName(String name) {
-        log.debug(connection);
         return producers.getProducers().stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
     }
 
