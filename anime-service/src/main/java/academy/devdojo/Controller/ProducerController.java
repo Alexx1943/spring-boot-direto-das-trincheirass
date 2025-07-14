@@ -50,7 +50,8 @@ public class ProducerController {
 
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, headers = "x-api-key")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
+            headers = "x-api-key")
     public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostResquest producerPostResquest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 

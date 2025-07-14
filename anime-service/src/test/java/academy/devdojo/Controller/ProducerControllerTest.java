@@ -2,13 +2,17 @@ package academy.devdojo.Controller;
 
 import academy.devdojo.Domain.Producer;
 import academy.devdojo.Repository.ProducerData;
+import academy.devdojo.Repository.ProducerHardCodeRepository;
 import org.junit.jupiter.api.*;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -20,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 @WebMvcTest(controllers = ProducerController.class)
@@ -37,6 +42,9 @@ class ProducerControllerTest {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
+    @SpyBean
+    private ProducerHardCodeRepository repository;
 
     @BeforeEach
     void init() {
@@ -135,6 +143,34 @@ class ProducerControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.status().reason("Producer not found"));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("POST/v1/producers create a producers")
+    void saveCreateProducer_WhenSucessful() throws Exception {
+
+        var producerToSave = Producer.builder()
+                .id(2L)
+                .name("teste")
+                .createdAt(LocalDateTime.now()).build();
+
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(producerToSave);
+
+        var request = readResourceFile("producer/post-request-producer-teste7-name-200.json");
+        var response = readResourceFile("producer/post-response-producer-teste7-name-201.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/v1/producers")
+                        .content(request)
+                        .header("x-api-key", "v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+
     }
 
 
