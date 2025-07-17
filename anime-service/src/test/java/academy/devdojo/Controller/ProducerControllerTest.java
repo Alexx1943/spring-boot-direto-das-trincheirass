@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 @WebMvcTest(controllers = ProducerController.class)
@@ -173,7 +172,37 @@ class ProducerControllerTest {
 
     }
 
+    @Test
+    @Order(7)
+    @DisplayName("PUT/v1/producers updates a producer")
+    void updateUpdatesProducer_WhenSucessful() throws Exception {
 
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+
+        var request = readResourceFile("producer/put-producer-id-200.json");
+        var id = producerList.getFirst().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/v1/producers")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("PUT/v'/producers throws responseStatusException when producer is not found")
+    void updateThrowsResponseStatusException_WhenProducerIsNotFound() throws Exception {
+        
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+        
+        
+    }
+    
+    
+    
     private String readResourceFile(String fileName) throws IOException {
         var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
         return new String(Files.readAllBytes(file.toPath()));
