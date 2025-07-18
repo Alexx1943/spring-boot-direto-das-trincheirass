@@ -183,7 +183,7 @@ class ProducerControllerTest {
         var id = producerList.getFirst().getId();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/v1/producers")
+                        .put("/v1/producers", id)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -193,7 +193,7 @@ class ProducerControllerTest {
 
     @Test
     @Order(8)
-    @DisplayName("PUT/v'/producers throws ResponseStatusException when producer is not found")
+    @DisplayName("PUT/v1/producers throws ResponseStatusException when producer is not found")
     void updateThrowsResponseStatusException_WhenProducerIsNotFound() throws Exception {
 
         BDDMockito.when(data.getProducers()).thenReturn(producerList);

@@ -9,6 +9,7 @@ import academy.devdojo.Service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,6 @@ public class AnimeController {
 
     private final AnimeMapper mapper;
     private final AnimeService service;
-
-
 
 
     @GetMapping()
@@ -52,7 +51,8 @@ public class AnimeController {
         return ResponseEntity.ok().body(animeResponse);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
+            headers = "x-api-key")
     public ResponseEntity<AnimeGetResponse> addAnime(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 
@@ -62,7 +62,7 @@ public class AnimeController {
 
         var response = mapper.toAnimeGetResponse(animeSaved);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
 

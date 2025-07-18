@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -105,6 +106,123 @@ class AnimeControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(request));
     }
 
+    @Test
+    @Order(4)
+    @DisplayName("GET/v1/animes/1 returns a anime with given id")
+    void findByIdReturnsAnime_WhenSucessful() throws Exception {
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var request = readResourceFile("anime/get-anime-id-name-200.json");
+
+        var id = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/animes/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(request));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("GET/v1/animes/999 returns ResponseStatusException when id is not found")
+    void findByIdThrowsResponseStatusException_WhenIdIsNotFound() throws Exception {
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var id = 999L;
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/animes/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+    }
+
+
+    @Test
+    @Order(6)
+    @DisplayName("POST/v1/animes creates a anime")
+    void saveCreatesAnime_WhenSucessful() throws Exception {
+
+        var animeToSave = Anime.builder().id(1L).name("Test").build();
+
+        BDDMockito.when(repository.save(animeToSave)).thenReturn(animeToSave);
+
+        var request = readResourceFile("anime/post-request-anime-test-200.json");
+        var response = readResourceFile("anime/post-response-anime-test-201.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/animes")
+                        .content(request)
+                        .header("x-api-key", "v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("PUT/v1/animes updates an anime")
+    void updateUpdateAnime_WhenSucessful() throws Exception {
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var request = readResourceFile("anime/put-request-anime-name-200.json");
+        var id = animeList.getFirst().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/animes", id)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("PUT/v1/animes throws ResponseStatusException when an anime is not found")
+    void updateThrowsResponseStatusException_WhenAnimeIsNotFound() throws Exception {
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var response = readResourceFile("anime/put-response-anime-404.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/animes")
+                        .content(response)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("DELETE/v1/animes/1 remove an anime")
+    void deleteRemoveAnime_WhenSucessful() throws Exception{
+
+        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+
+        var id = animeList.getFirst().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/animes/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("DELETE/v1/anime/431 throws ResponseStatusException when id is not found")
+    void deleteThrowsResponseStatusException_WhenIdIsNotFound() throws Exception {
+
+        var id = 431L;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/animes/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Anime not found"));
+    }
 
     private String readResourceFile(String fileName) throws IOException {
         var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();

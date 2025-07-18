@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AnimeGetResponse {
+
     private Long id;
     private String name;
 }
