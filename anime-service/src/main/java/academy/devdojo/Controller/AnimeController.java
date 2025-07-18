@@ -28,7 +28,7 @@ public class AnimeController {
 
 
 
-    @GetMapping("listAll")
+    @GetMapping()
     public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
         log.info("Resquet to list all animes '{}", name);
 
@@ -41,7 +41,7 @@ public class AnimeController {
     }
 
 
-    @GetMapping("findById/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
         log.info("Request to find By id '{}'", id);
 
