@@ -1,5 +1,6 @@
 package academy.devdojo.Repository;
 
+import academy.devdojo.Commons.ProducersUtils;
 import academy.devdojo.Domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -9,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -25,13 +24,13 @@ class ProducerHardCodeRepositoryTest {
     private ProducerData producerData;
     private List<Producer> listProducers;
 
+    @InjectMocks
+    private ProducersUtils producersUtils;
+
     @BeforeEach
     void init() {
-        var teste5 = Producer.builder().id(1L).name("Teste5").createdAt(LocalDateTime.now()).build();
-        var teste6 = Producer.builder().id(2L).name("Teste6").createdAt(LocalDateTime.now()).build();
-        var teste7 = Producer.builder().id(3L).name("Teste7").createdAt(LocalDateTime.now()).build();
-        var teste8 = Producer.builder().id(4L).name("Teste8").createdAt(LocalDateTime.now()).build();
-        listProducers = new ArrayList<>(List.of(teste5, teste6, teste7, teste8));
+
+        listProducers = producersUtils.newProducers();
     }
 
 
@@ -94,11 +93,7 @@ class ProducerHardCodeRepositoryTest {
 
         BDDMockito.when(producerData.getProducers()).thenReturn(listProducers);
 
-        var produceToSave = Producer.builder()
-                .id(ThreadLocalRandom.current().nextLong(1000))
-                .name("MAPPA")
-                .createdAt(LocalDateTime.now())
-                .build();
+        var produceToSave = producersUtils.newProducerToSave();
 
         var producer = repository.save(produceToSave);
 

@@ -1,6 +1,5 @@
 package academy.devdojo.Controller;
 
-import academy.devdojo.Domain.Anime;
 import academy.devdojo.Mapper.AnimeMapper;
 import academy.devdojo.Request.AnimePostRequest;
 import academy.devdojo.Request.AnimePutRequest;
