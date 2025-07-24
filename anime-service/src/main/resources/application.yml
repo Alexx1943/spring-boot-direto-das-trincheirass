@@ -1,11 +1,10 @@
-
 spring:
- application:
+  application:
     name: anime-service
 
- threads:
-   virtual:
-     enabled: true
+  threads:
+    virtual:
+      enabled: true
 
 
 server:
@@ -17,3 +16,8 @@ server:
     threads:
       max: 20
 
+
+database:
+  url: ${DB_URL:localhost}:${DB_PORT:3306}
+  username: ${LOCAL_USERNAME:alex}
+  password: ${LOCAL_PASSWORD:12345}

@@ -1,0 +1,5 @@
+database:
+  url: localhost:3306
+  username: alexMysql
+  password: 123456
+
