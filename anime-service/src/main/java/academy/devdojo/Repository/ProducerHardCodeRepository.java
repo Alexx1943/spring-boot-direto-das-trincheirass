@@ -2,6 +2,7 @@ package academy.devdojo.Repository;
 
 import academy.devdojo.Domain.Producer;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Log4j2
 public class ProducerHardCodeRepository {
 
