@@ -8,5 +8,8 @@ import lombok.Setter;
 @Getter
 public class UserPutRequest {
 
-    private String name;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
 }

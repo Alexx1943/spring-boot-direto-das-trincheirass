@@ -4,6 +4,7 @@ package academy.devdojo.Controller;
 import academy.devdojo.Domain.User;
 import academy.devdojo.Mapper.UserMapper;
 import academy.devdojo.Request.UserPostRequest;
+import academy.devdojo.Request.UserPutRequest;
 import academy.devdojo.Response.UserGetResponse;
 import academy.devdojo.Service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,17 @@ public class UserController {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody UserPutRequest putRequest){
+
+        var request = mapper.toUser(putRequest);
+
+        service.update(request);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 
