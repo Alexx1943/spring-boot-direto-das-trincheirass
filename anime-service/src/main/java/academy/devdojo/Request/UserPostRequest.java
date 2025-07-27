@@ -10,6 +10,9 @@ import lombok.Setter;
 @Builder
 public class UserPostRequest {
 
+
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
 }

@@ -3,10 +3,13 @@ package academy.devdojo.Controller;
 
 import academy.devdojo.Domain.User;
 import academy.devdojo.Mapper.UserMapper;
+import academy.devdojo.Request.UserPostRequest;
 import academy.devdojo.Response.UserGetResponse;
 import academy.devdojo.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +37,28 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<UserGetResponse> findById(@PathVariable Long id){
+        log.info("Request to find By id '{}'", id);
 
         var userById = service.findByIdOrThrowsNotFoundException(id);
 
-        var response = mapper.toAnimeGetResponse(userById);
+        var response = mapper.toUserGetResponse(userById);
 
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserGetResponse> save(@RequestBody UserPostRequest userPostRequest, @RequestHeader HttpHeaders headers){
+
+        var request = mapper.toUser(userPostRequest);
+
+        var saved = service.save(request);
+
+        UserGetResponse response = mapper.toUserGetResponse(saved);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
 
         service.delete(id);
