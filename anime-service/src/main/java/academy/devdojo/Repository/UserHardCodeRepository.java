@@ -23,7 +23,7 @@ public class UserHardCodeRepository {
 
     public List<User> findByName(String name) {
 
-        var userByName = data.getUsers().stream().filter(user -> user.getFirstName().equals(name)).toList();
+        var userByName = data.getUsers().stream().filter(user -> user.getFirstName().equalsIgnoreCase(name)).toList();
 
         return userByName;
     }

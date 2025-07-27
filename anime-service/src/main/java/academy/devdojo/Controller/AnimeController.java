@@ -28,7 +28,7 @@ public class AnimeController {
 
     @GetMapping()
     public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
-        log.info("Resquet to list all animes '{}", name);
+        log.info("Resquet to list all animes '{}'", name);
 
         var animes = service.findAll(name);
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UserGetResponse {
+public class  UserGetResponse {
 
 
     private Long id;

@@ -151,8 +151,6 @@ class AnimeHardCoreRepositoryTest {
 
         Assertions.assertThat(anime).isPresent();
         Assertions.assertThat(anime.get().getId()).isEqualTo(animeToUpdate.getId());
-
-
     }
 
 

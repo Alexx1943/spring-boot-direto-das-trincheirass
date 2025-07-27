@@ -18,6 +18,6 @@ public interface UserMapper {
 
     UserGetResponse toAnimeGetResponse(User user);
 
-    List<UserGetResponse> toListUserGetResponse(List<UserGetResponse> user);
+    List<UserGetResponse> toListUserGetResponse(List<User> user);
 
 }
