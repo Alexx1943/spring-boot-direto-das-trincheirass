@@ -1,7 +1,6 @@
 package academy.devdojo.Controller;
 
 
-import academy.devdojo.Domain.User;
 import academy.devdojo.Mapper.UserMapper;
 import academy.devdojo.Request.UserPostRequest;
 import academy.devdojo.Request.UserPutRequest;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("v1/users")
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package academy.devdojo.Controller;
 
+import academy.devdojo.Commons.FileUtils;
 import academy.devdojo.Commons.ProducersUtils;
 import academy.devdojo.Domain.Producer;
 import academy.devdojo.Repository.ProducerData;
@@ -39,6 +40,9 @@ class ProducerControllerTest {
 
     @Autowired
     private ProducersUtils producersUtils;
+
+    @Autowired
+    private FileUtils fileUtils;
 
 
     @Autowired
