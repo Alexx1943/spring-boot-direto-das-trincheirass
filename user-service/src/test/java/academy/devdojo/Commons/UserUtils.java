@@ -10,7 +10,7 @@ import java.util.List;
 public class UserUtils {
 
 
-    public List<User> userList() {
+    public List<User> newUsers() {
         User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTes").build();
         User test2 = User.builder().id(2L).firstName("FirstName2").lastName("lastname").email("emailTes").build();
         User test3 = User.builder().id(3L).firstName("FirstName3").lastName("lastname").email("emailTes").build();

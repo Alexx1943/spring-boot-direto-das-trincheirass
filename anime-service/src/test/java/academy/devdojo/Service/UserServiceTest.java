@@ -1,6 +1,7 @@
 package academy.devdojo.Service;
 
 
+import academy.devdojo.Commons.UserUtils;
 import academy.devdojo.Domain.User;
 import academy.devdojo.Repository.UserHardCodeRepository;
 import org.assertj.core.api.Assertions;
@@ -12,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +25,9 @@ class UserServiceTest {
     @InjectMocks
     private UserService service;
 
+    @InjectMocks
+    private UserUtils userUtils;
+
     @Mock
     private UserHardCodeRepository repository;
 
@@ -34,13 +37,7 @@ class UserServiceTest {
     @BeforeEach
     void init() {
 
-        var test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest").build();
-        var test2 = User.builder().id(2L).firstName("FirstName2").lastName("lastname").email("emailTest").build();
-        var test3 = User.builder().id(3L).firstName("FirstName3").lastName("lastname").email("emailTest").build();
-        var test4 = User.builder().id(4L).firstName("FirstName4").lastName("lastname").email("emailTest").build();
-        var test5 = User.builder().id(5L).firstName("FirstName5").lastName("lastname").email("emailTest").build();
-
-        userList = new ArrayList<>(List.of(test1, test2, test3, test4, test5));
+        userList = userUtils.userList();
     }
 
     @Test

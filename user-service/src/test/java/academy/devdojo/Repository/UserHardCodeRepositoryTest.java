@@ -1,5 +1,6 @@
 package academy.devdojo.Repository;
 
+import academy.devdojo.Commons.UserUtils;
 import academy.devdojo.Domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -8,8 +9,8 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -22,19 +23,16 @@ class UserHardCodeRepositoryTest {
 
     private List<User> userList;
 
+    @InjectMocks
+    private UserUtils userUtils;
+
     @Mock
     private UserData data;
 
     @BeforeEach
     void init() {
 
-        var test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest").build();
-        var test2 = User.builder().id(2L).firstName("FirstName2").lastName("lastname").email("emailTest").build();
-        var test3 = User.builder().id(3L).firstName("FirstName3").lastName("lastname").email("emailTest").build();
-        var test4 = User.builder().id(4L).firstName("FirstName4").lastName("lastname").email("emailTest").build();
-        var test5 = User.builder().id(5L).firstName("FirstName5").lastName("lastname").email("emailTest").build();
-
-        userList = new ArrayList<>(List.of(test1, test2, test3, test4, test5));
+        userList = userUtils.newUsers();
     }
 
     @Test
@@ -54,7 +52,7 @@ class UserHardCodeRepositoryTest {
     void findByNameReturnsUserListWithObject_WhentSucessful() {
 
         BDDMockito.when(data.getUsers()).thenReturn(userList);
-
+        userUtils.newUsers();
         var userByName = userList.getFirst();
 
         var userName = repository.findByName(userByName.getFirstName());
