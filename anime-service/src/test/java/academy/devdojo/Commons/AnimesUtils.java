@@ -1,11 +1,13 @@
 package academy.devdojo.Commons;
 
 import academy.devdojo.Domain.Anime;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class AnimesUtils {
 
     public List<Anime> newAnimes(){
