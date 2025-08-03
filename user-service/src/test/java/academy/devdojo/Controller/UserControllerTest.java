@@ -5,6 +5,7 @@ import academy.devdojo.Commons.UserUtils;
 import academy.devdojo.Domain.User;
 import academy.devdojo.Repository.UserData;
 import academy.devdojo.Repository.UserHardCodeRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -213,6 +215,57 @@ class UserControllerTest {
         var id = 431L;
     }
 
+    @Test
+    @Order(11)
+    @DisplayName("POST/v1/users returns bad request when fields are empity")
+    void saveReturnBadRequest_WhenFieldsAreEmpity() throws Exception{
+
+        var request = fileUtils.readResourceFile("user/post-request-user-empity-fields-400.json");
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        var firstErrorName = "The field 'firstName' is required";
+        var lastErrorName = "The field 'lastName' is required";
+        var emailError = "the field  'email' is required";
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(firstErrorName,lastErrorName,emailError);
+    }
+
+    @Test
+    @Order(12)
+    @DisplayName("POST/v1/users returns bad request when fields are blank")
+    void saveReturnBadRequest_WhenFieldsAreblank() throws Exception{
+
+        var request = fileUtils.readResourceFile("user/post-request-user-blank-fields-400.json");
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        var firstErrorName = "The field 'firstName' is required";
+        var lastErrorName = "The field 'lastName' is required";
+        var emailError = "the field  'email' is required";
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(firstErrorName,lastErrorName,emailError);
+    }
 
 
 
