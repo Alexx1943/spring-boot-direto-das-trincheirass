@@ -50,9 +50,8 @@ public class AnimeController {
         return ResponseEntity.ok().body(animeResponse);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
-            headers = "x-api-key")
-    public ResponseEntity<AnimeGetResponse> addAnime(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AnimeGetResponse> save(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 
         var request = mapper.toAnime(animePostRequest);
@@ -66,7 +65,7 @@ public class AnimeController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteId(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.info("Request to delete producer by id:  {}", id);
 
         service.delete(id);

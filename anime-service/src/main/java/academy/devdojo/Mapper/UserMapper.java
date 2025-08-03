@@ -14,6 +14,7 @@ import java.util.List;
 public interface UserMapper {
 
 
+    @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1000))")
     User toUser(UserPostRequest userPostRequest);
 
     User toUser(UserPutRequest userPutRequest);

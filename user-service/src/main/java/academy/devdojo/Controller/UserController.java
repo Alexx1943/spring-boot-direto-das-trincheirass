@@ -6,6 +6,7 @@ import academy.devdojo.Request.UserPostRequest;
 import academy.devdojo.Request.UserPutRequest;
 import academy.devdojo.Response.UserGetResponse;
 import academy.devdojo.Service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserGetResponse> save(@RequestBody UserPostRequest userPostRequest, @RequestHeader HttpHeaders headers){
+    public ResponseEntity<UserGetResponse> save(@RequestBody @Valid  UserPostRequest userPostRequest){
 
         var request = mapper.toUser(userPostRequest);
 
@@ -68,7 +69,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody UserPutRequest putRequest){
+    public ResponseEntity<Void> update(@RequestBody @Valid  UserPutRequest putRequest){
 
         var request = mapper.toUser(putRequest);
 
