@@ -5,7 +5,11 @@ import academy.devdojo.Commons.ProducersUtils;
 import academy.devdojo.Domain.Producer;
 import academy.devdojo.Repository.ProducerData;
 import academy.devdojo.Repository.ProducerHardCodeRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 
 @WebMvcTest(controllers = ProducerController.class)
@@ -44,10 +52,6 @@ class ProducerControllerTest {
     @Autowired
     private FileUtils fileUtils;
 
-
-    @Autowired
-    private ResourceLoader resourceLoader;
-
     @SpyBean
     private ProducerHardCodeRepository repository;
 
@@ -64,7 +68,7 @@ class ProducerControllerTest {
 
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
-        var responseNull = readResourceFile("producer/get-producer-null-name-200.json");
+        var responseNull = fileUtils.readResourceFile("producer/get-producer-null-name-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andDo(MockMvcResultHandlers.print())
@@ -79,7 +83,7 @@ class ProducerControllerTest {
 
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
-        var responseTeste7 = readResourceFile("producer/get-producer-teste7-name-200.json");
+        var responseTeste7 = fileUtils.readResourceFile("producer/get-producer-teste7-name-200.json");
 
         var name = "teste7";
 
@@ -96,7 +100,7 @@ class ProducerControllerTest {
 
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
-        var responseEmpityList = readResourceFile("producer/get-producer-[]-name-200.json");
+        var responseEmpityList = fileUtils.readResourceFile("producer/get-producer-[]-name-200.json");
 
         var name = "[]";
 
@@ -113,7 +117,7 @@ class ProducerControllerTest {
 
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
-        var responseId = readResourceFile("producer/get-producer-id-200.json");
+        var responseId = fileUtils.readResourceFile("producer/get-producer-id-200.json");
 
         var id = 1L;
 
@@ -150,8 +154,8 @@ class ProducerControllerTest {
 
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(producerToSave);
 
-        var request = readResourceFile("producer/post-request-producer-teste7-name-200.json");
-        var response = readResourceFile("producer/post-response-producer-teste7-name-201.json");
+        var request = fileUtils.readResourceFile("producer/post-request-producer-teste7-name-200.json");
+        var response = fileUtils.readResourceFile("producer/post-response-producer-teste7-name-201.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)
@@ -171,7 +175,7 @@ class ProducerControllerTest {
 
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
-        var request = readResourceFile("producer/put-producer-id-200.json");
+        var request = fileUtils.readResourceFile("producer/put-producer-id-200.json");
         var id = producersUtils.newProducers().getFirst().getId();
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -191,7 +195,7 @@ class ProducerControllerTest {
         BDDMockito.when(data.getProducers()).thenReturn(producersUtils.newProducers());
 
 
-        var request = readResourceFile("producer/put-producer-id-404.json");
+        var request = fileUtils.readResourceFile("producer/put-producer-id-404.json");
 
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -232,11 +236,83 @@ class ProducerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @ParameterizedTest
+    @MethodSource("putProducerBadRequest")
+    @Order(11)
+    @DisplayName("PUT/v1/producers returns bad request when fields are invalids")
+    void updateReturnBadRequest_WhenFieldsInvalids(String fileName, List<String> errors) throws Exception {
 
-    private String readResourceFile(String fileName) throws IOException {
-        var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
-        return new String(Files.readAllBytes(file.toPath()));
+        var request = fileUtils.readResourceFile("producer/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .put(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        org.assertj.core.api.Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(errors);
     }
+
+    @ParameterizedTest
+    @MethodSource("postProducerBadRequest")
+    @Order(12)
+    @DisplayName("POST/v1/produces returns bad request when fields are invalids")
+    void updateReturnBadRequest_WhenFieldsAreEmpity(String fileName, List<String> errors) throws Exception {
+
+        var request = fileUtils.readResourceFile("producer/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
+                        .header("x-api-key", "v1")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(errors);
+    }
+
+    private static Stream<Arguments> postProducerBadRequest() {
+
+        var lastNameRequiredError = "The field 'name' is required";
+        var strings = Collections.singletonList(lastNameRequiredError);
+        return Stream.of(
+                Arguments.of("post-request-producer-blank-fields-400.json", strings),
+                Arguments.of("post-request-producer-empity-fields-400.json", strings)
+        );
+    }
+
+    private static Stream<Arguments> putProducerBadRequest() {
+
+        return Stream.of(
+                Arguments.of("put-request-producer-blank-fields-400.json", allErrors()),
+                Arguments.of("put-request-producer-empity-fields-400.json", allErrors())
+        );
+    }
+
+    private static List<String> allErrors() {
+
+        var firstNameRequiredError = "The field 'id' cannot be null";
+        var lastNameRequiredError = "The field 'name' is required";
+        return  new ArrayList<>(List.of(firstNameRequiredError, lastNameRequiredError)
+        );
+    }
+
+
+
 
 
 }

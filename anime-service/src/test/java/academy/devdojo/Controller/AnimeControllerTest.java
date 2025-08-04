@@ -5,7 +5,11 @@ import academy.devdojo.Commons.FileUtils;
 import academy.devdojo.Domain.Anime;
 import academy.devdojo.Repository.AnimeData;
 import academy.devdojo.Repository.AnimeHardCoreRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @WebMvcTest(controllers = AnimeController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -219,5 +224,78 @@ class AnimeControllerTest {
         var id = 431L;
 
 
+    }
+
+    @ParameterizedTest
+    @MethodSource("putAnimeBadRequest")
+    @Order(11)
+    @DisplayName("PUT/v1/animes returns bad request when fields are invalids")
+    void updateReturnBadRequest_WhenFieldsInvalids(String fileName, List<String> errors) throws Exception {
+
+        var request = fileUtils.readResourceFile("anime/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .put(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        org.assertj.core.api.Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(errors);
+    }
+
+    @ParameterizedTest
+    @MethodSource("postAnimeBadRequest")
+    @Order(11)
+    @DisplayName("POST/v1/animes returns bad request when fields are invalids")
+    void updateReturnBadRequest_WhenFieldsAreEmpity(String fileName, List<String> errors) throws Exception {
+
+        var request = fileUtils.readResourceFile("anime/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        org.assertj.core.api.Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(errors);
+    }
+
+    private static Stream<Arguments> postAnimeBadRequest() {
+
+
+        return Stream.of(
+                Arguments.of("post-request-anime-blank-fields-400.json", allErrors()),
+                Arguments.of("post-request-anime-empity-fields-400.json", allErrors())
+        );
+    }
+
+    private static Stream<Arguments> putAnimeBadRequest() {
+
+        return Stream.of(
+                Arguments.of("put-request-anime-blank-fields-400.json", allErrors()),
+                Arguments.of("put-request-anime-empity-fields-400.json", allErrors())
+        );
+    }
+
+    private static List<String> allErrors() {
+
+        var firstNameRequiredError = "The field 'id' cannot be null";
+        var lastNameRequiredError = "The field 'name' is required";
+        return new ArrayList<>(List.of(firstNameRequiredError, lastNameRequiredError)
+        );
     }
 }

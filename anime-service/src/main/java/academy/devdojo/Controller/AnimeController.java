@@ -5,6 +5,7 @@ import academy.devdojo.Request.AnimePostRequest;
 import academy.devdojo.Request.AnimePutRequest;
 import academy.devdojo.Response.AnimeGetResponse;
 import academy.devdojo.Service.AnimeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -51,8 +52,7 @@ public class AnimeController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnimeGetResponse> save(@RequestBody AnimePostRequest animePostRequest, @RequestHeader HttpHeaders headers) {
-        log.info("{}", headers);
+    public ResponseEntity<AnimeGetResponse> save(@RequestBody @Valid AnimePostRequest animePostRequest) {
 
         var request = mapper.toAnime(animePostRequest);
 
@@ -76,7 +76,7 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+    public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
 
         var animeToUpdate = mapper.toAnime(request);
 
