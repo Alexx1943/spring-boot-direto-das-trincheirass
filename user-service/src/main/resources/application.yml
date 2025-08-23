@@ -1,6 +1,14 @@
 spring:
   application:
-    name: anime-service
+    name: user-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/springBoot
+    username: alex
+    password: 1234
+
+  jpa:
+    show-sql: true
 
   threads:
     virtual:
@@ -18,7 +26,3 @@ server:
       max: 20
 
 
-database:
-  url: ${DB_URL:localhost}:${DB_PORT:3306}
-  username: ${LOCAL_USERNAME:alex}
-  password: ${LOCAL_PASSWORD:12345}

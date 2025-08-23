@@ -1,6 +1,7 @@
 package academy.devdojo.Service;
 
 import academy.devdojo.Domain.Anime;
+import academy.devdojo.Exception.NotFoundException;
 import academy.devdojo.Repository.AnimeHardCoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class AnimeService {
 
     public Anime findByIdOrThrowNotFound(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
+                .orElseThrow(() -> new NotFoundException("Anime not found"));
     }
 
     public Anime save(Anime anime) {

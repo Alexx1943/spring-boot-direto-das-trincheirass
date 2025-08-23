@@ -1,9 +1,9 @@
-package academy.devdojo.Mapper;
+package academy.devdojo.mapper;
 
-import academy.devdojo.Domain.User;
-import academy.devdojo.Request.UserPostRequest;
-import academy.devdojo.Request.UserPutRequest;
-import academy.devdojo.Response.UserGetResponse;
+import academy.devdojo.domain.User;
+import academy.devdojo.request.UserPostRequest;
+import academy.devdojo.request.UserPutRequest;
+import academy.devdojo.response.UserGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

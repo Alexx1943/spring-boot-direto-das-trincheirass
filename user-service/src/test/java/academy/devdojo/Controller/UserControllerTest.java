@@ -2,9 +2,10 @@ package academy.devdojo.Controller;
 
 import academy.devdojo.Commons.FileUtils;
 import academy.devdojo.Commons.UserUtils;
-import academy.devdojo.Domain.User;
-import academy.devdojo.Repository.UserData;
-import academy.devdojo.Repository.UserHardCodeRepository;
+import academy.devdojo.controller.UserController;
+import academy.devdojo.domain.User;
+import academy.devdojo.repository.UserData;
+import academy.devdojo.repository.UserHardCodeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +24,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 

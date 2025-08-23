@@ -1,7 +1,7 @@
-package academy.devdojo.Repository;
+package academy.devdojo.repository;
 
 
-import academy.devdojo.Domain.User;
+import academy.devdojo.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

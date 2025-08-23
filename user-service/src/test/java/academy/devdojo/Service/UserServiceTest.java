@@ -2,8 +2,9 @@ package academy.devdojo.Service;
 
 
 import academy.devdojo.Commons.UserUtils;
-import academy.devdojo.Domain.User;
-import academy.devdojo.Repository.UserHardCodeRepository;
+import academy.devdojo.domain.User;
+import academy.devdojo.repository.UserHardCodeRepository;
+import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

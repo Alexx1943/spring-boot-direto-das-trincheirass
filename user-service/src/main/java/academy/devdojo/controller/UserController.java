@@ -1,15 +1,14 @@
-package academy.devdojo.Controller;
+package academy.devdojo.controller;
 
 
-import academy.devdojo.Mapper.UserMapper;
-import academy.devdojo.Request.UserPostRequest;
-import academy.devdojo.Request.UserPutRequest;
-import academy.devdojo.Response.UserGetResponse;
-import academy.devdojo.Service.UserService;
+import academy.devdojo.mapper.UserMapper;
+import academy.devdojo.request.UserPostRequest;
+import academy.devdojo.request.UserPutRequest;
+import academy.devdojo.response.UserGetResponse;
+import academy.devdojo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class UserController {
 
 
     @GetMapping()
-    public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name){
+    public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
         log.info("Request to list with all users '{}'", name);
 
         var users = service.findAll(name);
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserGetResponse> findById(@PathVariable Long id){
+    public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
         log.info("Request to find By id '{}'", id);
 
         var userById = service.findByIdOrThrowsNotFoundException(id);
@@ -49,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserGetResponse> save(@RequestBody @Valid  UserPostRequest userPostRequest){
+    public ResponseEntity<UserGetResponse> save(@RequestBody @Valid UserPostRequest userPostRequest) {
 
         var request = mapper.toUser(userPostRequest);
 
@@ -61,7 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         service.delete(id);
 
@@ -69,7 +68,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid  UserPutRequest putRequest){
+    public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequest putRequest) {
 
         var request = mapper.toUser(putRequest);
 
@@ -78,11 +77,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
 
     }
-
-
-
-
-
 
 
 }

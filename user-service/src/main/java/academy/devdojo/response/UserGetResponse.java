@@ -1,22 +1,19 @@
-package academy.devdojo.Domain;
+package academy.devdojo.response;
 
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+
 @Getter
-@EqualsAndHashCode
+@Setter
 @Builder
-public class User {
+public class UserGetResponse {
+
 
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
-
-
-
 }
