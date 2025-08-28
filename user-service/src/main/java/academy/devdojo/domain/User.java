@@ -1,22 +1,33 @@
 package academy.devdojo.domain;
 
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Setter
 @Getter
 @EqualsAndHashCode
 @Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
 
+    @Column(nullable = false)
+    private String firstName;
+
+
+    @Column(nullable = false)
+    private String lastName;
+
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
 
 }
