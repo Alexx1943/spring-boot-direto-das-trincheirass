@@ -3,7 +3,7 @@ package academy.devdojo.Service;
 
 import academy.devdojo.Commons.UserUtils;
 import academy.devdojo.domain.User;
-import academy.devdojo.repository.UserHardCodeRepository;
+import academy.devdojo.repository.UserRepository;
 import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -27,8 +27,10 @@ class UserServiceTest {
     private UserService service;
 
 
+
+
     @Mock
-    private UserHardCodeRepository repository;
+    private UserRepository repository;
 
     private List<User> userList;
 
@@ -63,7 +65,7 @@ class UserServiceTest {
 
         var users = Collections.singletonList(userName);
 
-        BDDMockito.when(repository.findByName(userName.getFirstName())).thenReturn(users);
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(userName.getFirstName())).thenReturn(users);
 
         var user = service.findAll(userName.getFirstName());
 
@@ -77,7 +79,7 @@ class UserServiceTest {
 
         String name = "ldlwdcc";
 
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(name)).thenReturn(Collections.emptyList());
 
         var userNotFound = service.findAll(name);
 
@@ -165,7 +167,6 @@ class UserServiceTest {
         userToUpdate.setFirstName("uytr");
 
         BDDMockito.when(repository.findById(userToUpdate.getId())).thenReturn(Optional.of(userToUpdate));
-        BDDMockito.doNothing().when(repository).update(userToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
     }

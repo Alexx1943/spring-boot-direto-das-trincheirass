@@ -6,6 +6,7 @@ import academy.devdojo.controller.UserController;
 import academy.devdojo.domain.User;
 import academy.devdojo.repository.UserData;
 import academy.devdojo.repository.UserHardCodeRepository;
+import academy.devdojo.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,6 +48,9 @@ class UserControllerTest {
     @Autowired
     private FileUtils fileUtils;
 
+    @MockBean
+    private UserRepository userRepository;
+
     @SpyBean
     private UserHardCodeRepository repository;
 
@@ -60,7 +64,7 @@ class UserControllerTest {
     @DisplayName("GET/v1/users return a list with all users when argument is null")
     void findAllReturnAllUsers_WhenArgumentIsNull() throws Exception {
 
-        BDDMockito.when(data.getUsers()).thenReturn(userUtils.newUsers());
+        BDDMockito.when(userRepository.findAll()).thenReturn(userUtils.newUsers());
 
         var requestNull = fileUtils.readResourceFile("user/get-user-null-name-200.json");
 
@@ -75,7 +79,7 @@ class UserControllerTest {
     @DisplayName("GET/v1/users?param returns a list with found object when name exist")
     void findAllReturnListWithUser_WhenSucessful() throws Exception {
 
-        BDDMockito.when(data.getUsers()).thenReturn(userUtils.newUsers());
+        BDDMockito.when(userRepository.findAll()).thenReturn(userUtils.newUsers());
 
         var requestName = fileUtils.readResourceFile("user/get-user-FirstName1-name-200.json");
 

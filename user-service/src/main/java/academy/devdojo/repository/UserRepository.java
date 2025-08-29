@@ -9,5 +9,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByFirstNameIgnoreCase(String firstName);
 
+    User update(User user);
+
 
 }
