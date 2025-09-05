@@ -1,7 +1,6 @@
 package academy.devdojo.service;
 
 import academy.devdojo.domain.User;
-import academy.devdojo.repository.UserHardCodeRepository;
 import academy.devdojo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +29,8 @@ public class UserService {
 
     public User save(User user) {
 
+        assetEmaildoesNotExist(user.getEmail());
+
         return repository.save(user);
     }
 
@@ -44,6 +45,12 @@ public class UserService {
 
         var userToUpdate = findByIdOrThrowsNotFoundException(user.getId());
         repository.save(user);
+    }
+
+    public void assetEmaildoesNotExist(String email){
+        repository.findByEmail(email)
+                .ifPresent(u -> {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exist");});
+
     }
 
 }

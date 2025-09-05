@@ -19,4 +19,12 @@ public class UserUtils {
 
         return new ArrayList<>(List.of(test1, test2, test3, test4, test5));
     }
+
+    public List<User> newUser() {
+        User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
+
+
+        return new ArrayList<>(List.of(test1));
+    }
+
 }

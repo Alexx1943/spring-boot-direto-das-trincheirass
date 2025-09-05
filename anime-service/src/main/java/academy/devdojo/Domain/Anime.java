@@ -1,9 +1,7 @@
 package academy.devdojo.Domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,25 +10,21 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
+@Entity
+@NoArgsConstructor
 public class Anime {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
+
+
+    @Column(nullable = false)
     private String name;
 
-    private static List<Anime> animes = new ArrayList<>();
 
-    static {
-
-        var naruto = new Anime(1L, "Naruto");
-        var dragonBallZ = new Anime(2L, "Dragoon Ball Z");
-        animes.addAll(List.of(naruto, dragonBallZ));
-    }
-
-
-    public static List<Anime> findAll() {
-
-        return animes;
-    }
 
 
 }
+
