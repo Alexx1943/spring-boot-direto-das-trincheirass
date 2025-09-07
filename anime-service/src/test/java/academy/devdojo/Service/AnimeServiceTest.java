@@ -1,7 +1,7 @@
 package academy.devdojo.Service;
 
 import academy.devdojo.Domain.Anime;
-import academy.devdojo.Repository.AnimeHardCoreRepository;
+import academy.devdojo.Repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class AnimeServiceTest {
     private AnimeService service;
 
     @Mock
-    private AnimeHardCoreRepository repository;
+    private AnimeRepository repository;
 
     private List<Anime> animeList;
 
@@ -157,14 +157,14 @@ class AnimeServiceTest {
 
     @Test
     @Order(9)
-    @DisplayName("up Updated a anime list")
+    @DisplayName("update Updated a anime list")
     void updateUpdatedAnimeList_WhenSucessful() {
 
         var animeToUpdate = animeList.getFirst();
         animeToUpdate.setName("Teste");
 
         BDDMockito.when(repository.findById(animeToUpdate.getId())).thenReturn(Optional.of(animeToUpdate));
-        BDDMockito.doNothing().when(repository).update(animeToUpdate);
+        BDDMockito.when(repository.save(animeToUpdate)).thenReturn(animeToUpdate);
 
         Assertions.assertThatNoException()
                 .isThrownBy(() -> service.update(animeToUpdate));

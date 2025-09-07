@@ -2,7 +2,7 @@ package academy.devdojo.Service;
 
 
 import academy.devdojo.Domain.Producer;
-import academy.devdojo.Repository.ProducerHardCodeRepository;
+import academy.devdojo.Repository.ProducerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,8 +27,9 @@ class ProducerServiceTest {
     @InjectMocks
     private ProducerService service;
 
+
     @Mock
-    private ProducerHardCodeRepository repository;
+    private ProducerRepository repository;
 
     private List<Producer> producerList;
 
@@ -168,7 +169,7 @@ class ProducerServiceTest {
 
         BDDMockito.when(repository.findById(producerToUpdate.getId())).thenReturn(Optional.of(producerToUpdate));
 
-        BDDMockito.doNothing().when(repository).update(producerToUpdate);
+        BDDMockito.when(repository.save(producerToUpdate)).thenReturn(producerToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(producerToUpdate));
     }

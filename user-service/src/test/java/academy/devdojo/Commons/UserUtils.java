@@ -1,30 +1,30 @@
-package academy.devdojo.Commons;
+    package academy.devdojo.Commons;
 
-import academy.devdojo.domain.User;
-import org.springframework.stereotype.Component;
+    import academy.devdojo.domain.User;
+    import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+    import java.util.ArrayList;
+    import java.util.List;
 
-@Component
-public class UserUtils {
+    @Component
+    public class UserUtils {
 
 
-    public List<User> newUsers() {
-        User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
-        User test2 = User.builder().id(2L).firstName("FirstName2").lastName("lastname").email("emailTest@gmail.com").build();
-        User test3 = User.builder().id(3L).firstName("FirstName3").lastName("lastname").email("emailTest@gmail.com").build();
-        User test4 = User.builder().id(4L).firstName("FirstName4").lastName("lastname").email("emailTest@gmail.com").build();
-        User test5 = User.builder().id(5L).firstName("FirstName5").lastName("lastname").email("emailTest@gmail.com").build();
+        public List<User> newUsers() {
+            User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
+            User test2 = User.builder().id(2L).firstName("FirstName2").lastName("lastname").email("emailTest@gmail.com").build();
+            User test3 = User.builder().id(3L).firstName("FirstName3").lastName("lastname").email("emailTest@gmail.com").build();
+            User test4 = User.builder().id(4L).firstName("FirstName4").lastName("lastname").email("emailTest@gmail.com").build();
+            User test5 = User.builder().id(5L).firstName("FirstName5").lastName("lastname").email("emailTest@gmail.com").build();
 
-        return new ArrayList<>(List.of(test1, test2, test3, test4, test5));
+            return new ArrayList<>(List.of(test1, test2, test3, test4, test5));
+        }
+
+        public List<User> newUser() {
+            User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
+
+
+            return new ArrayList<>(List.of(test1));
+        }
+
     }
-
-    public List<User> newUser() {
-        User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
-
-
-        return new ArrayList<>(List.of(test1));
-    }
-
-}

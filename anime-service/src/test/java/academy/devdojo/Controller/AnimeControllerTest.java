@@ -1,10 +1,12 @@
 package academy.devdojo.Controller;
 
 
+import academy.devdojo.Commons.AnimesUtils;
 import academy.devdojo.Commons.FileUtils;
 import academy.devdojo.Domain.Anime;
 import academy.devdojo.Repository.AnimeData;
 import academy.devdojo.Repository.AnimeHardCoreRepository;
+import academy.devdojo.Repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,22 +47,18 @@ class AnimeControllerTest {
     @Autowired
     private FileUtils fileUtils;
 
-    @SpyBean
+    @Autowired
+    private AnimesUtils animesUtils;
+
+    @MockBean
     private AnimeHardCoreRepository repository;
+
+    @MockBean
+    private AnimeRepository animeRepository;
 
     @BeforeEach
     void init() {
-        Anime teste1 = Anime.builder()
-                .id(1L)
-                .name("Naruto")
-                .build();
-
-        Anime teste2 = Anime.builder()
-                .id(2L)
-                .name("Dragoon Ball Z")
-                .build();
-
-        animeList = new ArrayList<>(List.of(teste1, teste2));
+        animesUtils.newAnimes();
     }
 
     @Test
@@ -68,7 +66,7 @@ class AnimeControllerTest {
     @DisplayName("GET/v1/animes returns a animes list with all anime")
     void findAllReturnListAnime_WhenSucessful() throws Exception {
 
-        BDDMockito.when(data.getAnimes()).thenReturn(animeList);
+        BDDMockito.when(animeRepository.findAll()).thenReturn(animesUtils.newAnimes());
 
         var requestNull = fileUtils.readResourceFile("anime/get-anime-null-name-200.json");
 
@@ -151,7 +149,7 @@ class AnimeControllerTest {
 
         var animeToSave = Anime.builder().id(1L).name("Test").build();
 
-        BDDMockito.when(repository.save(animeToSave)).thenReturn(animeToSave);
+        BDDMockito.when(animeRepository.save(animeToSave)).thenReturn(animeToSave);
 
         var request = fileUtils.readResourceFile("anime/post-request-anime-test-200.json");
         var response = fileUtils.readResourceFile("anime/post-response-anime-test-201.json");

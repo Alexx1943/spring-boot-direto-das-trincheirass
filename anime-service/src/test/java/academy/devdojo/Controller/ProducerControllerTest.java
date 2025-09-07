@@ -5,6 +5,7 @@ import academy.devdojo.Commons.ProducersUtils;
 import academy.devdojo.Domain.Producer;
 import academy.devdojo.Repository.ProducerData;
 import academy.devdojo.Repository.ProducerHardCodeRepository;
+import academy.devdojo.Repository.ProducerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -52,8 +53,11 @@ class ProducerControllerTest {
     @Autowired
     private FileUtils fileUtils;
 
-    @SpyBean
+    @MockBean
     private ProducerHardCodeRepository repository;
+
+    @MockBean
+    private ProducerRepository producerRepository;
 
     @BeforeEach
     void init() {

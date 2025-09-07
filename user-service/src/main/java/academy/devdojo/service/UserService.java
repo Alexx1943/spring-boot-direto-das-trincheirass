@@ -43,14 +43,28 @@ public class UserService {
 
     public void update(User user) {
 
-        var userToUpdate = findByIdOrThrowsNotFoundException(user.getId());
+        assertUserExist(user.getId());
+        assetEmaildoesNotExist(user.getEmail(), user.getId());
+
         repository.save(user);
+    }
+
+    public void assertUserExist(Long id){
+
+        findByIdOrThrowsNotFoundException(id);
     }
 
     public void assetEmaildoesNotExist(String email){
         repository.findByEmail(email)
-                .ifPresent(u -> {throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exist");});
-
+                .ifPresent(this::throwEmailExistException);
     }
+
+    public void assetEmaildoesNotExist(String email, Long id){
+        repository.findByEmailAndIdNot(email, id)
+                .ifPresent(this::throwEmailExistException);
+    }
+
+    private  void throwEmailExistException(User user){
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exist");    }
 
 }
