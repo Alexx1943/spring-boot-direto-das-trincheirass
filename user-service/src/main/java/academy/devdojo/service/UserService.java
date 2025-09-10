@@ -22,8 +22,7 @@ public class UserService {
 
     public User findByIdOrThrowsNotFoundException(Long id) {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
 
