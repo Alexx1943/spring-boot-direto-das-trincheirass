@@ -150,7 +150,6 @@ class UserControllerTest {
         BDDMockito.when(repository.save(userToSave)).thenReturn(userToSave);
 
         var request = fileUtils.readResourceFile("user/post-request-user-FirstName5-name-200.json");
-        var response = fileUtils.readResourceFile("user/post-response-user-FirstName5-name-201.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)

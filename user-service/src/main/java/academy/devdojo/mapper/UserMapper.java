@@ -5,14 +5,12 @@ import academy.devdojo.request.UserPostRequest;
 import academy.devdojo.request.UserPutRequest;
 import academy.devdojo.response.UserGetResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface    UserMapper {
-
+public interface UserMapper {
 
     User toUser(UserPostRequest userPostRequest);
 

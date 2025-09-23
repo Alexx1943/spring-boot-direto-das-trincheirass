@@ -24,7 +24,6 @@ public class UserController {
 
     private final UserService service;
     private final UserMapper mapper;
-    private final UserService userService;
 
 
     @GetMapping()
@@ -55,7 +54,7 @@ public class UserController {
 
         var saved = service.save(request);
 
-        UserGetResponse response = mapper.toUserGetResponse(saved);
+        var response = mapper.toUserGetResponse(saved);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
