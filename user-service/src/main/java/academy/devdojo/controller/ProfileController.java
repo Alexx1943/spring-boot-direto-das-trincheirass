@@ -1,6 +1,7 @@
 package academy.devdojo.controller;
 
 
+import academy.devdojo.domain.Profile;
 import academy.devdojo.mapper.ProfileMapper;
 import academy.devdojo.request.ProfilePostRequest;
 import academy.devdojo.response.ProfileGetResponse;
@@ -47,5 +48,15 @@ public class ProfileController {
         return ResponseEntity.ok(response);
 
 
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ProfileGetResponse> findById(@PathVariable(required = false) Long id){
+
+        var profileById = service.findById(id);
+
+        var response = mapper.toGetProfileResponse(profileById);
+
+        return ResponseEntity.ok(response);
     }
 }

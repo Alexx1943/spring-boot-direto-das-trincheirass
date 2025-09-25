@@ -12,6 +12,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
@@ -20,7 +21,8 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class UserServiceTest {
+@ComponentScan(basePackages = "academy.devdojo.user")
+class   UserServiceTest {
 
 
     @InjectMocks

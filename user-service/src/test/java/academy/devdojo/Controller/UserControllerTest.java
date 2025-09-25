@@ -59,7 +59,7 @@ class UserControllerTest {
 
         BDDMockito.when(repository.findAll()).thenReturn(userUtils.newUsers());
 
-        var requestNull = fileUtils.readResourceFile("user/get-user-null-name-200.json");
+        var requestNull = fileUtils.readResourceFile("user/get/get-user-null-name-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andDo(MockMvcResultHandlers.print())
@@ -76,7 +76,7 @@ class UserControllerTest {
         var name1 = "FirstName1";
         BDDMockito.when(repository.findByFirstNameIgnoreCase(name1)).thenReturn(userUtils.newUser());
 
-        var requestName = fileUtils.readResourceFile("user/get-user-FirstName1-name-200.json");
+        var requestName = fileUtils.readResourceFile("user/get/get-user-FirstName1-name-200.json");
 
         var name = "FirstName1";
 
@@ -93,7 +93,7 @@ class UserControllerTest {
 
         BDDMockito.when(repository.findAll()).thenReturn(userUtils.newUsers());
 
-        var responseEmpityList = fileUtils.readResourceFile("user/get-user-[]-name-200.json");
+        var responseEmpityList = fileUtils.readResourceFile("user/get/get-user-[]-name-200.json");
 
         var name = "[]";
 
@@ -112,7 +112,7 @@ class UserControllerTest {
         var id = 1L;
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(userUtils.newUsers().getFirst()));
 
-        var responseId = fileUtils.readResourceFile("user/get-user-id-200.json");
+        var responseId = fileUtils.readResourceFile("user/get/get-user-id-200.json");
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
@@ -149,7 +149,7 @@ class UserControllerTest {
 
         BDDMockito.when(repository.save(userToSave)).thenReturn(userToSave);
 
-        var request = fileUtils.readResourceFile("user/post-request-user-FirstName5-name-200.json");
+        var request = fileUtils.readResourceFile("user/post/post-request-user-FirstName5-name-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)
@@ -171,7 +171,7 @@ class UserControllerTest {
         BDDMockito.when(repository.findById(1L)).thenReturn(Optional.of(id));
         BDDMockito.when(repository.save(id)).thenReturn(id);
 
-        var request = fileUtils.readResourceFile("user/put-request-user-name-200.json");
+        var request = fileUtils.readResourceFile("user/put/put-request-user-name-200.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put(URL, id.getId())
                         .content(request)
@@ -188,7 +188,7 @@ class UserControllerTest {
 
         BDDMockito.when(repository.findAll()).thenReturn(userUtils.newUsers());
 
-        var response = fileUtils.readResourceFile("user/put-response-user-404.json");
+        var response = fileUtils.readResourceFile("user/put/put-response-user-404.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put(URL)
                         .content(response)
