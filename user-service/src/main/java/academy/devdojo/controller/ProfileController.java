@@ -1,7 +1,6 @@
 package academy.devdojo.controller;
 
 
-import academy.devdojo.domain.Profile;
 import academy.devdojo.mapper.ProfileMapper;
 import academy.devdojo.request.ProfilePostRequest;
 import academy.devdojo.response.ProfileGetResponse;
