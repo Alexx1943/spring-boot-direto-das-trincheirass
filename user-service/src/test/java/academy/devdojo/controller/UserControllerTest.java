@@ -280,9 +280,9 @@ class UserControllerTest {
         var emailrequiredErros = emailErrors();
 
         return Stream.of(
-                Arguments.of("post-request-user-blank-fields-400.json", allRequiredErrors),
-                Arguments.of("post-request-user-empity-fields-400.json", allRequiredErrors),
-                Arguments.of("post-request-user-invalid-email-400.json", emailrequiredErros)
+                Arguments.of("post/post-request-user-blank-fields-400.json", allRequiredErrors),
+                Arguments.of("post/post-request-user-empity-fields-400.json", allRequiredErrors),
+                Arguments.of("post/post-request-user-invalid-email-400.json", emailrequiredErros)
         );
     }
 
@@ -292,9 +292,9 @@ class UserControllerTest {
         allRequiredErrorsPut.add("The field 'id' cannot be null");
 
         return Stream.of(
-                Arguments.of("put-request-user-blank-fields-400.json", allRequiredErrorsPut),
-                Arguments.of("put-request-user-empity-fields-400.json", allErrors()),
-                Arguments.of("put-request-user-invalid-email-400.json", emailErrors())
+                Arguments.of("put/put-request-user-blank-fields-400.json", allRequiredErrorsPut),
+                Arguments.of("put/put-request-user-empity-fields-400.json", allErrors()),
+                Arguments.of("put/put-request-user-invalid-email-400.json", emailErrors())
                 );
     }
 

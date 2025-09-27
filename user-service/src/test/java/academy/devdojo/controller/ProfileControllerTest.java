@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @WebMvcTest(controllers = ProfileController.class)
@@ -49,7 +50,7 @@ class ProfileControllerTest {
 
     @Test
     @Order(1)
-    @DisplayName("save create a profile")
+    @DisplayName("POST/v1/profiles create a profile")
     void saveCreateProfile_WheSucessful() throws Exception {
 
         var profileToSave = Profile.builder().id(1L).name("test1").description("description1").build();
@@ -69,8 +70,8 @@ class ProfileControllerTest {
 
     @Test
     @Order(2)
-    @DisplayName("findAll returns a list with all profiles when argument is null")
-    void findallReturnsListAllProfiles_WhenSucessful() throws Exception {
+    @DisplayName("GET/v1/profiles returns a list with all profiles when argument is null")
+    void findAllReturnsListAllProfiles_WhenSucessful() throws Exception {
 
         BDDMockito.when(repository.findAll()).thenReturn(profileUtils.getListProfile());
 
@@ -83,7 +84,7 @@ class ProfileControllerTest {
 
     @Test
     @Order(3)
-    @DisplayName("findAll returns a list with a profile when argument exist")
+    @DisplayName("GET/v1/profiles?param returns a list with a profile when argument exist")
     void findAllReturnProfile_WhenArgumentExist() throws Exception {
 
         var name = "test1";
@@ -101,7 +102,23 @@ class ProfileControllerTest {
 
     @Test
     @Order(4)
-    @DisplayName("findById returns a profile when argument exist")
+    @DisplayName("GET/v1/profiles?param returns a empity list when argument is not found")
+    void findAllReturnEmpityList_WhenArgumenteNotFound() throws Exception {
+
+        var name = "nameNotFound";
+
+        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+
+        var requestNotFound = fileUtils.readResourceFile("profile/get/get-profile-[]-name-200.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(requestNotFound));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("GET/v1/profiles/1 returns a profile when argument exist")
     void findByIdReturnProfile_WhenIdExist() throws Exception {
 
         var id = 1L;
@@ -113,6 +130,19 @@ class ProfileControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(requestById));
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("GET/v1/profiles/90 throws ResponseStatusException 404 when profile is not found")
+    void findByIdThrowsResponseStatusException_WhenProfileIsNotFound() throws Exception {
+
+        var id = 90L;
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.status().reason("Profile not found"));
     }
 
 
