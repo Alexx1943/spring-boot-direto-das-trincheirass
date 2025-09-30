@@ -3,6 +3,7 @@ package academy.devdojo.controller;
 import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.ProducersUtils;
 import academy.devdojo.Domain.Producer;
+import academy.devdojo.repository.AnimeRepository;
 import academy.devdojo.repository.ProducerData;
 import academy.devdojo.repository.ProducerHardCodeRepository;
 import academy.devdojo.repository.ProducerRepository;
@@ -36,6 +37,9 @@ import java.util.stream.Stream;
 class ProducerControllerTest {
 
     private static final String URL = "/v1/producers";
+
+    @MockBean
+    private AnimeRepository animeRepository;
 
     @Autowired
     private MockMvc mockMvc;

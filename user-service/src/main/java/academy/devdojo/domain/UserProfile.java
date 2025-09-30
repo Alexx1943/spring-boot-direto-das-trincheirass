@@ -13,23 +13,19 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserProfile {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
 
+    @ManyToOne(optional = false)
+    private User user;
 
-    @Column(nullable = false)
-    private String lastName;
-
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
+    @ManyToOne(optional = false)
+    private Profile profile;
 
 }

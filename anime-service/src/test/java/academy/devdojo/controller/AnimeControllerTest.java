@@ -7,6 +7,7 @@ import academy.devdojo.Domain.Anime;
 import academy.devdojo.repository.AnimeData;
 import academy.devdojo.repository.AnimeHardCoreRepository;
 import academy.devdojo.repository.AnimeRepository;
+import academy.devdojo.repository.ProducerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,6 +35,8 @@ class AnimeControllerTest {
 
     private static final String URL = "/v1/animes";
 
+    @MockBean
+    ProducerRepository producerRepository;
 
     @Autowired
     private MockMvc mockMvc;
