@@ -128,7 +128,7 @@ class UserControllerTest {
     @DisplayName("GET/v1/users/99 throws ResponseStatusException 404 when user is not found")
     void findByIdThrowsResponseStatusException_WhenUserIsNotFound() throws Exception {
 
-        var id = 99999L;
+        var id = 99L;
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))

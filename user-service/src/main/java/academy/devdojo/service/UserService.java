@@ -3,6 +3,8 @@ package academy.devdojo.service;
 import academy.devdojo.domain.User;
 import academy.devdojo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +20,12 @@ public class UserService {
     public List<User> findAll(String name) {
 
         return name == null ? repository.findAll() : repository.findByFirstNameIgnoreCase(name);
+    }
+
+
+    public Page<User> findAllPage(Pageable pageable){
+
+        return repository.findAll(pageable);
     }
 
     public User findByIdOrThrowsNotFoundException(Long id) {

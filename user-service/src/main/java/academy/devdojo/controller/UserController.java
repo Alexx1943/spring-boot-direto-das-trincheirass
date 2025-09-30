@@ -9,6 +9,8 @@ import academy.devdojo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +30,19 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
-        log.info("Request to list with all users '{}'", name);
 
         var users = service.findAll(name);
 
         var response = mapper.toListUserGetResponse(users);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<UserGetResponse>> findAllPage(Pageable pageable) {
+
+        var response = service.findAllPage(pageable).map(mapper::toUserGetResponse);
+
         return ResponseEntity.ok(response);
     }
 
