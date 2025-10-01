@@ -1,6 +1,7 @@
 package academy.devdojo.service;
 
 import academy.devdojo.Domain.Anime;
+import academy.devdojo.commons.AnimesUtils;
 import academy.devdojo.repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -10,9 +11,9 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,15 +30,15 @@ class AnimeServiceTest {
     @Mock
     private AnimeRepository repository;
 
+    @InjectMocks
+    private AnimesUtils animesUtils;
+
     private List<Anime> animeList;
 
     @BeforeEach
     void init() {
 
-        var anime1 = Anime.builder().id(ThreadLocalRandom.current().nextLong(4233)).name("testeAnime").build();
-        var anime2 = Anime.builder().id(ThreadLocalRandom.current().nextLong(4233)).name("testeAnime").build();
-
-        animeList = new ArrayList<>(List.of(anime1, anime2));
+        animeList = animesUtils.getListAnimes();
     }
 
     @Test
@@ -47,9 +48,9 @@ class AnimeServiceTest {
 
         BDDMockito.when(repository.findAll()).thenReturn(animeList);
 
-        var anime = service.findAll(null);
+        var findAllResponse = service.findAll(null);
 
-        Assertions.assertThat(anime).isNotEmpty().hasSameElementsAs(animeList);
+        Assertions.assertThat(findAllResponse).isNotEmpty().hasSameElementsAs(animeList);
     }
 
     @Test

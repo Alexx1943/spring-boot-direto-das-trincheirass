@@ -47,9 +47,6 @@ class ProducerControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private ProducerData data;
-
     @Autowired
     private ProducersUtils producersUtils;
 
@@ -57,13 +54,7 @@ class ProducerControllerTest {
     private FileUtils fileUtils;
 
     @MockBean
-    private ProducerHardCodeRepository repository;
-
-    @MockBean
     private ProducerService service;
-
-    @MockBean
-    private ProducerRepository producerRepository;
 
     @BeforeEach
     void init() {
