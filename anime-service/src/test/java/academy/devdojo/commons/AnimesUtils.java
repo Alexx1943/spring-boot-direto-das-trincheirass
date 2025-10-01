@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class AnimesUtils {
 
-    public List<Anime> newAnimes(){
+    public List<Anime> getListAnimes(){
 
         Anime teste1 = Anime.builder()
                 .id(1L)
@@ -22,6 +22,26 @@ public class AnimesUtils {
                 .build();
 
         return new ArrayList<>(List.of(teste1, teste2));
+    }
+
+    public Anime getAnime(){
+
+        Anime teste1 = Anime.builder()
+                .id(1L)
+                .name("Naruto")
+                .build();
+
+        return teste1;
+    }
+
+    public List<Anime> getAnimes(){
+
+        Anime teste1 = Anime.builder()
+                .id(1L)
+                .name("Naruto")
+                .build();
+
+        return new ArrayList<>(List.of(teste1));
     }
 
 }

@@ -39,7 +39,7 @@ public class ProducerController {
     }
 
 
-    @GetMapping("findById/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
         log.info("Request to find producer by id '{}'", id);
 
@@ -51,8 +51,7 @@ public class ProducerController {
 
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
-            headers = "x-api-key")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProducerGetResponse> save(@RequestBody @Valid ProducerPostResquest producerPostResquest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 

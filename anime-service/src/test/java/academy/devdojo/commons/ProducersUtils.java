@@ -7,13 +7,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 @Component
 public class ProducersUtils {
 
-    public List<Producer> newProducers(){
+    public List<Producer> getListProducer(){
 
 
         var dateTime = "2025-07-12T14:55:39.226635219";
@@ -29,11 +28,26 @@ public class ProducersUtils {
         return new ArrayList<>(List.of(teste1, teste2, teste3, teste4));
     }
 
-    public Producer newProducerToSave(){
+    public List<Producer> getSingleProducer(){
 
-        var produceToSave = Producer.builder().id(ThreadLocalRandom.current().nextLong(1000)).name("MAPPA").createdAt(LocalDateTime.now()).build();
+        var dateTime = "2025-07-12T14:55:39.226635219";
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        var localDateTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        return produceToSave;
+        var teste1 = Producer.builder().id(1L).name("Teste5").createdAt(null).build();
+
+        return new ArrayList<>(List.of(teste1));
+    }
+
+    public Producer getProducer(){
+
+        var dateTime = "2025-07-12T14:55:39.226635219";
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        var localDateTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        var teste1 = Producer.builder().id(1L).name("Teste5").createdAt(null).build();
+
+        return teste1;
 
     }
 
