@@ -30,4 +30,9 @@ public class ProfileService {
         return repository.save(profile);
     }
 
+    public void delete(Long id){
+
+        repository.deleteById(id);
+    }
+
 }

@@ -5,6 +5,7 @@ import academy.devdojo.commons.UserUtils;
 import academy.devdojo.domain.User;
 import academy.devdojo.repository.ProfileRepository;
 import academy.devdojo.repository.UserRepository;
+import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,6 +50,9 @@ class UserControllerTest {
     @MockBean
     private UserRepository repository;
 
+    @MockBean
+    private UserService service;
+
 
     @BeforeEach
     void init() {
@@ -60,7 +64,7 @@ class UserControllerTest {
     @DisplayName("GET/v1/users return a list with all users when argument is null")
     void findAllReturnAllUsers_WhenArgumentIsNull() throws Exception {
 
-        BDDMockito.when(repository.findAll()).thenReturn(userUtils.newUsers());
+        BDDMockito.when(service.findAll(null)).thenReturn(userUtils.newUsers());
 
         var requestNull = fileUtils.readResourceFile("user/get/get-user-null-name-200.json");
 
@@ -71,13 +75,21 @@ class UserControllerTest {
     }
 
     @Test
+    @Order(1)
+    @DisplayName("GET/v1/users/pageable return a paginated list  os users")
+    void findAllPageReturnPaginatedList_WhenSucessful(){
+
+//        BDDMockito.when(ser)
+    }
+
+    @Test
     @Order(2)
     @DisplayName("GET/v1/users?param returns a list with found object when name exist")
     void findAllReturnListWithUser_WhenSucessful() throws Exception {
 
 
         var name = "FirstName1";
-        BDDMockito.when(repository.findByFirstNameIgnoreCase(name   )).thenReturn(userUtils.newUser());
+        BDDMockito.when(service.findAll(name)).thenReturn(userUtils.newUser());
 
         var requestName = fileUtils.readResourceFile("user/get/get-user-FirstName1-name-200.json");
 
