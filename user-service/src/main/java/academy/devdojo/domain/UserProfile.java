@@ -7,12 +7,14 @@ import lombok.*;
 @With
 @Setter
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name = "UserProfile.fullDetails",
+        attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("profile")})
 public class UserProfile {
 
 

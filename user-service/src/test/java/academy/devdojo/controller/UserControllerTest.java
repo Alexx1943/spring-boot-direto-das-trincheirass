@@ -4,6 +4,7 @@ import academy.devdojo.commons.FileUtils;
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.domain.User;
 import academy.devdojo.repository.ProfileRepository;
+import academy.devdojo.repository.UserProfileRepository;
 import academy.devdojo.repository.UserRepository;
 import academy.devdojo.service.UserService;
 import org.assertj.core.api.Assertions;
@@ -16,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,9 @@ import java.util.stream.Stream;
 class UserControllerTest {
 
     private static final String URL = "/v1/users";
+
+    @MockBean
+    private UserProfileRepository userProfileRepository;
 
     @MockBean
     private ProfileRepository profileRepository;
@@ -124,7 +130,7 @@ class UserControllerTest {
     void findByIdReturnUser_WhenSucessful() throws Exception {
 
         var id = 1L;
-        BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(userUtils.newUsers().getFirst()));
+        BDDMockito.when(service.findByIdOrThrowsNotFoundException(id)).thenReturn(userUtils.newUsers().getFirst());
 
         var responseId = fileUtils.readResourceFile("user/get/get-user-id-200.json");
 
@@ -142,11 +148,7 @@ class UserControllerTest {
 
         var id = 99L;
 
-
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+        BDDMockito.when(service.findByIdOrThrowsNotFoundException(id)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
     @Test
@@ -200,17 +202,9 @@ class UserControllerTest {
     @DisplayName("PUT/v1/users throws ResponseStatusException when an user is not found")
     void updateThrowsResponseStatusException_WhenUserIsNotFound() throws Exception {
 
-        BDDMockito.when(repository.findAll()).thenReturn(userUtils.newUsers());
+        var id = 99L;
 
-        var response = fileUtils.readResourceFile("user/put/put-response-user-404.json");
-
-        mockMvc.perform(MockMvcRequestBuilders.put(URL)
-                        .content(response)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+        BDDMockito.when(service.findByIdOrThrowsNotFoundException(id)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
     @Test

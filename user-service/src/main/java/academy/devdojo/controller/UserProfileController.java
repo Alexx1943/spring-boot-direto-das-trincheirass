@@ -1,10 +1,8 @@
 package academy.devdojo.controller;
 
-import academy.devdojo.domain.UserProfile;
-import academy.devdojo.mapper.UserMapper;
-import academy.devdojo.response.UserGetResponse;
+import academy.devdojo.mapper.UserProfileMapper;
+import academy.devdojo.response.UserProfileGetResponse;
 import academy.devdojo.service.UserProfileService;
-import academy.devdojo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +19,15 @@ import java.util.List;
 public class UserProfileController {
 
     private final UserProfileService service;
-    private final UserMapper mapper;
+    private final UserProfileMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<UserProfile>> findAll(String name){
+    public ResponseEntity<List<UserProfileGetResponse>> findAll(String name){
 
-        List<UserProfile> userProfiles = service.findAll();
+        var userProfiles = service.findAll();
 
-        return ResponseEntity.ok(userProfiles);
+        var userProfileGetResponses = mapper.userProfileGetResponseList(userProfiles);
+
+        return ResponseEntity.ok(userProfileGetResponses);
     }
 }
