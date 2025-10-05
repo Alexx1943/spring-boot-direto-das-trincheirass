@@ -1,12 +1,16 @@
 package academy.devdojo.controller;
 
+import academy.devdojo.domain.Profile;
+import academy.devdojo.domain.User;
 import academy.devdojo.mapper.UserProfileMapper;
 import academy.devdojo.response.UserProfileGetResponse;
+import academy.devdojo.response.UserProfileUserGetResponse;
 import academy.devdojo.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +33,16 @@ public class UserProfileController {
         var userProfileGetResponses = mapper.userProfileGetResponseList(userProfiles);
 
         return ResponseEntity.ok(userProfileGetResponses);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<List<UserProfileUserGetResponse>> findBrProfile(@PathVariable Long id){
+
+
+        var requestByProfile = service.findByProfile(id);
+        var responseByProfile = mapper.userProfileGetProfileList(requestByProfile);
+
+
+        return ResponseEntity.ok().body(responseByProfile);
     }
 }

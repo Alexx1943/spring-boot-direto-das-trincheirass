@@ -1,5 +1,7 @@
 package academy.devdojo.repository;
 
+import academy.devdojo.domain.Profile;
+import academy.devdojo.domain.User;
 import academy.devdojo.domain.UserProfile;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +19,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 //    @EntityGraph(attributePaths = {"user", "profile"})
     @EntityGraph(value = "UserProfile.fullDetails")
     List<UserProfile> findAll();
+
+    @Query("SELECT up.user FROM UserProfile up WHERE up.profile.id = ?1")
+    List<User> findByProfile(Long id);
 }
