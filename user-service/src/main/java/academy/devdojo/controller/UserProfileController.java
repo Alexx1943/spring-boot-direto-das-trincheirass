@@ -40,6 +40,7 @@ public class UserProfileController {
 
 
         var requestByProfile = service.findByProfile(id);
+
         var responseByProfile = mapper.userProfileGetProfileList(requestByProfile);
 
 
