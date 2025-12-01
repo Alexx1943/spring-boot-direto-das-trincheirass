@@ -38,7 +38,6 @@ public class UserProfileController {
     @GetMapping("{id}")
     public ResponseEntity<List<UserProfileUserGetResponse>> findBrProfile(@PathVariable Long id){
 
-
         var requestByProfile = service.findByProfile(id);
 
         var responseByProfile = mapper.userProfileGetProfileList(requestByProfile);

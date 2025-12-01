@@ -3,7 +3,7 @@ spring:
     name: user-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/springBoot
+    url: jdbc:mysql://localhost:3306/springBoot?createDatabaseIfNotExist=true
     username: alex
     password: 1234
 

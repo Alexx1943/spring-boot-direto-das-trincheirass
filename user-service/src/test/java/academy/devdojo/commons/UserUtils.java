@@ -27,4 +27,11 @@
             return new ArrayList<>(List.of(test1));
         }
 
+        public User user(){
+
+            User test1 = User.builder().id(1L).firstName("FirstName1").lastName("lastname").email("emailTest@gmail.com").build();
+
+            return test1;
+        }
+
     }
