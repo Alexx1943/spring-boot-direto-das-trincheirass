@@ -129,7 +129,7 @@ class ProfileControllerTest {
 
         BDDMockito.when(repository.findById(id)).thenReturn(Optional.of(profileUtils.getProfile()));
 
-        String requestById = fileUtils.readResourceFile("profile/get/get-profile-profileById-200.json");
+        var requestById = fileUtils.readResourceFile("profile/get/get-profile-profileById-200.json");
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
