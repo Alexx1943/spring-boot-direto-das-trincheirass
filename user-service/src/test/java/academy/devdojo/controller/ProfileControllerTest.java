@@ -57,11 +57,11 @@ class ProfileControllerTest {
     @DisplayName("POST/v1/profiles create a profile")
     void saveCreateProfile_WheSucessful() throws Exception {
 
-        var profileToSave = Profile.builder().id(1L).name("test1").description("description1").build();
+        var profileToSave = Profile.builder().id(1L).name("Admin").description("Administrator").build();
 
         BDDMockito.when(repository.save(profileToSave)).thenReturn(profileToSave);
 
-        var profileSaved = fileUtils.readResourceFile("profile/post/post-profile-save-201.json");
+        var profileSaved = fileUtils.readResourceFile("profile/post/post-request-profile-save-201.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL)

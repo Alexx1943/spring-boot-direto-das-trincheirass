@@ -6,8 +6,11 @@ import academy.devdojo.commons.ProfileUtils;
 import academy.devdojo.config.IntegrationTestConfig;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import net.javacrumbs.jsonunit.assertj.JsonAssert;
+import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -55,5 +58,52 @@ public class ProfileControllerIRestAssuredIT extends IntegrationTestConfig {
                 .body(Matchers.equalTo(response));
 
     }
+
+    @Test
+    @Order(2)
+    @DisplayName("GET/v1/profiles return empity list when argument is not found")
+    void findAll_ReturnsEmpityList_WhenArgumentIsNotFound() {
+
+        var response = fileUtils.readResourceFile("profile/get/get-profile-[]-name-200.json");
+
+        RestAssured.given()
+                .contentType(ContentType.JSON).accept(ContentType.JSON)
+                .when()
+                .get(URL)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body(Matchers.equalTo(response))
+                .log().all();
+    }
+
+
+    @Test
+    @Order(3)
+    @DisplayName("POST/v1/profiles creates an profile")
+    void saveCreatesProfile_WhenSucessful() {
+
+        var request = fileUtils.readResourceFile("profile/post/post-request-profile-save-201.json");
+        var expectedResponse = fileUtils.readResourceFile("profile/post/post-response-profile-save-201.json");
+
+        var response = RestAssured.given()
+                .contentType(ContentType.JSON).accept(ContentType.JSON)
+                .body(request)
+                .when()
+                .post(URL)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .log().all()
+                .extract().response().body().asString();
+
+        JsonAssertions.assertThatJson(response)
+                .node("id")
+                .asNumber()
+                .isPositive();
+
+        JsonAssertions.assertThatJson(response)
+                .whenIgnoringPaths("id")
+                .isEqualTo(expectedResponse);
+    }
+
 
 }
