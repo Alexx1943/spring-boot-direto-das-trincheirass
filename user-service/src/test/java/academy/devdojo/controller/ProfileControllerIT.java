@@ -1,7 +1,9 @@
 package academy.devdojo.controller;
 
 
+import academy.devdojo.commons.FileUtils;
 import academy.devdojo.config.IntegrationTestConfig;
+import academy.devdojo.request.ProfilePostRequest;
 import academy.devdojo.response.ProfileGetResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -9,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class ProfileControllerIT extends IntegrationTestConfig {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    private FileUtils fileUtils;
 
     @Test
     @DisplayName("GET/v1/profiles returns  a list with all profiles")
@@ -58,4 +62,33 @@ public class ProfileControllerIT extends IntegrationTestConfig {
         Assertions.assertThat(responseEntity.getBody()).isEmpty();
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("POST/v1/profiles creates an profile")
+    void saveCreateAnProfile() {
+
+        var request = fileUtils.readResourceFile("profile/post/post-request-profile-save-201.json");
+
+        var profileToSave = buildHttpEntity(request);
+
+        var responseEntity = testRestTemplate.exchange(URL, HttpMethod.POST, profileToSave, ProfilePostRequest.class);
+
+        Assertions.assertThat(responseEntity).isNotNull();
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        Assertions.assertThat(responseEntity.getBody()).isNotNull().hasNoNullFieldsOrProperties();
+    }
+
+
+
+
+
+
+    private static HttpEntity<String> buildHttpEntity(String request){
+
+        var httpHeaders = new HttpHeaders();
+
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        return  new HttpEntity<>(request, httpHeaders);
+    }
 }
