@@ -1,13 +1,16 @@
-package academy.devdojo.response;
+package academy.devdojo.dto.get;
+
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+
 @Getter
+@Setter
 @Builder
-public class UserProfileUserGetResponse {
+public class UserGetResponse {
+
 
     private Long id;
     private String firstName;

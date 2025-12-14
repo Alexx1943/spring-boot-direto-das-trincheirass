@@ -1,11 +1,10 @@
 package academy.devdojo.mapper;
 
 
-import academy.devdojo.domain.Profile;
 import academy.devdojo.domain.User;
 import academy.devdojo.domain.UserProfile;
-import academy.devdojo.response.UserProfileGetResponse;
-import academy.devdojo.response.UserProfileUserGetResponse;
+import academy.devdojo.dto.get.UserProfileGetResponse;
+import academy.devdojo.dto.get.UserProfileUserGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

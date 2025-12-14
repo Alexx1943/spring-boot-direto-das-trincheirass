@@ -1,17 +1,16 @@
-
 services:
   mysql:
     image: mysql:9.4.0
+    container_name: mysql-db
     environment:
-
-      MYSQL_ROOT_USER: alex
       MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: app_db
       MYSQL_USER: alexx
       MYSQL_PASSWORD: 1234
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-        - mysql-db:/var/lib/mysql
+      - mysql-db:/var/lib/mysql
 
 volumes:
   mysql-db:

@@ -2,10 +2,12 @@ package academy.devdojo.controller;
 
 
 import academy.devdojo.mapper.UserMapper;
-import academy.devdojo.request.UserPostRequest;
-import academy.devdojo.request.UserPutRequest;
-import academy.devdojo.response.UserGetResponse;
+import academy.devdojo.dto.post.UserPostRequest;
+import academy.devdojo.dto.put.UserPutRequest;
+import academy.devdojo.dto.get.UserGetResponse;
 import academy.devdojo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +24,15 @@ import java.util.List;
 @RequestMapping("v1/users")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "User API", description = "User's endpoints")
 public class UserController {
 
     private final UserService service;
     private final UserMapper mapper;
 
 
-    @GetMapping()
+    @Operation(summary = "Get all users", description = "Get all users in the system")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
 
         var users = service.findAll(name);
@@ -38,6 +42,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get all, but get pageable")
     @GetMapping("/pageable")
     public ResponseEntity<Page<UserGetResponse>> findAllPage(Pageable pageable) {
 
@@ -46,6 +51,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get User By Id")
     @GetMapping("{id}")
     public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
         log.info("Request to find By id '{}'", id);
@@ -57,6 +63,8 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Operation(summary = "Create a new user")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserGetResponse> save(@RequestBody @Valid UserPostRequest userPostRequest) {
 
@@ -69,6 +77,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Delete User")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
@@ -77,6 +86,8 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @Operation(summary = "Update User")
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequest putRequest) {
 

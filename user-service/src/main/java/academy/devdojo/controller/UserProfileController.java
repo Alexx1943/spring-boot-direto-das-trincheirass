@@ -1,10 +1,8 @@
 package academy.devdojo.controller;
 
-import academy.devdojo.domain.Profile;
-import academy.devdojo.domain.User;
 import academy.devdojo.mapper.UserProfileMapper;
-import academy.devdojo.response.UserProfileGetResponse;
-import academy.devdojo.response.UserProfileUserGetResponse;
+import academy.devdojo.dto.get.UserProfileGetResponse;
+import academy.devdojo.dto.get.UserProfileUserGetResponse;
 import academy.devdojo.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

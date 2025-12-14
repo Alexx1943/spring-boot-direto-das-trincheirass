@@ -1,4 +1,4 @@
-package academy.devdojo.request;
+package academy.devdojo.dto.post;
 
 
 import jakarta.validation.constraints.NotBlank;

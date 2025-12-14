@@ -17,6 +17,6 @@ public class TestcontainersConfiguration {
     @Profile("itest")
     @RestartScope
     MySQLContainer<?> mysqlContainer() {
-        return new MySQLContainer<>(DockerImageName .parse("mysql:8.1"));
+        return new MySQLContainer<>(DockerImageName.parse("mysql:8.1"));
     }
 }

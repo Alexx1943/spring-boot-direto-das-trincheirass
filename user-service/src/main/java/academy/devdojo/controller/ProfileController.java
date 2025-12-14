@@ -2,9 +2,10 @@ package academy.devdojo.controller;
 
 
 import academy.devdojo.mapper.ProfileMapper;
-import academy.devdojo.request.ProfilePostRequest;
-import academy.devdojo.response.ProfileGetResponse;
+import academy.devdojo.dto.post.ProfilePostRequest;
+import academy.devdojo.dto.get.ProfileGetResponse;
 import academy.devdojo.service.ProfileService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class ProfileController {
 
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileGetResponse> save(@RequestBody ProfilePostRequest profilePostRequest){
+    public ResponseEntity<ProfileGetResponse> save(@Valid @RequestBody ProfilePostRequest profilePostRequest){
 
         var request = mapper.toPostProfile(profilePostRequest);
 

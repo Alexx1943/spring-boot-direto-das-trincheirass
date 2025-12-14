@@ -1,8 +1,8 @@
 package academy.devdojo.mapper;
 
 import academy.devdojo.domain.Profile;
-import academy.devdojo.request.ProfilePostRequest;
-import academy.devdojo.response.ProfileGetResponse;
+import academy.devdojo.dto.post.ProfilePostRequest;
+import academy.devdojo.dto.get.ProfileGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
