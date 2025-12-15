@@ -4,6 +4,8 @@ import academy.devdojo.mapper.UserProfileMapper;
 import academy.devdojo.dto.get.UserProfileGetResponse;
 import academy.devdojo.dto.get.UserProfileUserGetResponse;
 import academy.devdojo.service.UserProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v1/user-profiles")
+@Tag(name = "UserProfile API", description = "UserProfile's endpoints")
 @RequiredArgsConstructor
 @Slf4j
 public class UserProfileController {
@@ -23,6 +26,8 @@ public class UserProfileController {
     private final UserProfileService service;
     private final UserProfileMapper mapper;
 
+
+    @Operation(summary = "Get all UserProfiles", description = "Get all UserProfiles in the system")
     @GetMapping
     public ResponseEntity<List<UserProfileGetResponse>> findAll(String name){
 
@@ -33,6 +38,7 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileGetResponses);
     }
 
+    @Operation(summary = "Get UserProfile by id")
     @GetMapping("{id}")
     public ResponseEntity<List<UserProfileUserGetResponse>> findBrProfile(@PathVariable Long id){
 

@@ -5,6 +5,8 @@ import academy.devdojo.mapper.ProfileMapper;
 import academy.devdojo.dto.post.ProfilePostRequest;
 import academy.devdojo.dto.get.ProfileGetResponse;
 import academy.devdojo.service.ProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("v1/profiles")
+@Tag(name = "Profile API", description = "profile's endpoint")
 @RestController
 public class ProfileController {
 
@@ -25,8 +28,10 @@ public class ProfileController {
     private final ProfileMapper mapper;
 
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create a new profile", description = "")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileGetResponse> save(@Valid @RequestBody ProfilePostRequest profilePostRequest){
+    public ResponseEntity<ProfileGetResponse> save(@Valid @RequestBody ProfilePostRequest profilePostRequest) {
 
         var request = mapper.toPostProfile(profilePostRequest);
 
@@ -38,8 +43,10 @@ public class ProfileController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get all profiles in the system")
     @GetMapping()
-    public ResponseEntity<List<ProfileGetResponse>> findAll(@RequestParam(required = false) String name){
+    public ResponseEntity<List<ProfileGetResponse>> findAll(@RequestParam(required = false) String name) {
 
         var profiles = service.findAll(name);
 
@@ -50,8 +57,9 @@ public class ProfileController {
 
     }
 
+    @Operation(summary = "Get by id")
     @GetMapping("{id}")
-    public ResponseEntity<ProfileGetResponse> findById(@PathVariable(required = false) Long id){
+    public ResponseEntity<ProfileGetResponse> findById(@PathVariable(required = false) Long id) {
 
         var profileById = service.findById(id);
 
@@ -60,8 +68,9 @@ public class ProfileController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Delete profile by id")
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         service.delete(id);
 

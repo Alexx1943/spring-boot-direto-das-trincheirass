@@ -22,9 +22,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v1/users")
+@Tag(name = "User API", description = "User's endpoints")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "User API", description = "User's endpoints")
 public class UserController {
 
     private final UserService service;
@@ -32,6 +32,7 @@ public class UserController {
 
 
     @Operation(summary = "Get all users", description = "Get all users in the system")
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
 
@@ -42,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Get all, but get pageable")
+    @Operation(summary = "Get all users, but get pageable")
     @GetMapping("/pageable")
     public ResponseEntity<Page<UserGetResponse>> findAllPage(Pageable pageable) {
 
@@ -77,7 +78,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @Operation(summary = "Delete User")
+    @Operation(summary = "Delete User by Id ")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
