@@ -3,6 +3,7 @@ package academy.devdojo.service;
 
 import academy.devdojo.commons.UserUtils;
 import academy.devdojo.domain.User;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -12,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -110,7 +110,7 @@ class   UserServiceTest {
 
         Assertions.assertThatException()
                 .isThrownBy(() -> service.findByIdOrThrowsNotFoundException(userException.getId()))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -153,7 +153,7 @@ class   UserServiceTest {
 
         Assertions.assertThatException()
                 .isThrownBy(() -> service.delete(userToDelete.getId()))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -180,7 +180,7 @@ class   UserServiceTest {
 
         Assertions.assertThatException()
                 .isThrownBy(() -> service.update(userToUpdate))
-                .isInstanceOf(ResponseStatusException.class);
+                .isInstanceOf(NotFoundException.class);
     }
 
 }

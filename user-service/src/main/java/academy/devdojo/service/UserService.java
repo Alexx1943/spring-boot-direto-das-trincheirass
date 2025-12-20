@@ -1,13 +1,13 @@
 package academy.devdojo.service;
 
 import academy.devdojo.domain.User;
+import academy.devdojo.exception.BadRequestException;
+import academy.devdojo.exception.NotFoundException;
 import academy.devdojo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class UserService {
 
     public User findByIdOrThrowsNotFoundException(Long id) {
 
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
 
@@ -74,7 +74,7 @@ public class UserService {
 
     private void throwEmailExistException(User user) {
 
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exist");
+        throw new BadRequestException("Email already exist");
     }
 
 }

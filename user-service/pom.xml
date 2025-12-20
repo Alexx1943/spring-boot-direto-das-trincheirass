@@ -23,9 +23,16 @@
         <lombok.version>1.18.30</lombok.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <coomons-core.version>0.0.1-SNAPSHOT</coomons-core.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>academy.devdojo</groupId>
+            <artifactId>coomons-core</artifactId>
+            <version>${coomons-core.version}</version>
+        </dependency>
 
         <!-- JPA / DB -->
         <dependency>
